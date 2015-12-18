@@ -85,8 +85,6 @@
 			_.curSlide = _.sliderItem.eq(_.defaults.defaultCurrentSlide);
 			_.firstSlide = null;
 			_.lastSlide = null;
-			_.firstSlidePos = 0;
-			_.lastSlidePos = 0;
 			_.isAnimating = false;
 			_.targetSlide = null;
 			_.numOfNextSlides = 1;
@@ -127,18 +125,7 @@
 			_.clonesEachSide = 0;
 		}
 
-		if ( _.defaults.loop && _.defaults.fade == false ) {
-			_.clonesEachSide = _.numOfNextSlides;
-
-			if ( _.defaults.centerMode ) {
-				_.clonesEachSide = _.clonesEachSide*2;
-			}
-
-			for ( var _i = 0; _i < _.clonesEachSide; _i++ ) {
-				_.sliderItem.eq(_i).clone(true).addClass('fClone').appendTo(_.sliderTrack);
-				_.sliderItem.eq(_.totalSlides-(_i+1)).clone(true).addClass('fClone').prependTo(_.sliderTrack);
-			}
-		}
+		_.appendClones();
 
 		if ( _.defaults.vTop ) {
 			_.sliderWrapper.find('.sliderItem').addClass('vTop');
@@ -176,7 +163,6 @@
 				_.curTop = -_.curEachSlideHeight*_.curSlide.index();
 			}
 			_.updateSliderDimension();
-			
 
 			if ( _.defaults.showArrows ) {
 				_.arrowPrev = _.sliderWrapper.find('.fArrow-prev');
@@ -190,9 +176,7 @@
 
 		$(window).on('responsive', function(){
 			if ( _.defaults.responsive ) {
-				/*_.checkSlidesToShow = $('body').hasClass( _.defaults.responsiveBodyClassName ) ? _.defaults.slidesToShowMobile : _.defaults.slidesToShowDesktop;
-				_.numOfNextSlides = $('body').hasClass( _.defaults.responsiveBodyClassName ) ? _.defaults.numOfNextSlidesMobile : _.defaults.numOfNextSlidesDesktop;
-				*/_.curEachSlideWidth = Math.floor(_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
+				_.curEachSlideWidth = Math.floor(_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
 
 				_.autoResponsive();
 
@@ -215,23 +199,7 @@
 					}
 				}
 
-				if ( _.defaults.numOfNextSlides[0] != _.defaults.numOfNextSlides[1] ) {			
-					if ( _.defaults.loop && _.defaults.fade == false ) {
-						_.clonesEachSide = _.numOfNextSlides;
-						if ( _.totalSlidesWClones < _.totalSlides+_.defaults.numOfNextSlidesDesktop*2 ) {
-							// mobile --> desktop
-							for ( var _i = 1; _i <= Math.abs(_.defaults.numOfNextSlidesDesktop-_.defaults.numOfNextSlidesMobile); _i++ ) {
-								_.sliderWrapper.find('.sliderItem').eq(_i).clone(true).addClass('fClone').removeClass('current').appendTo(_.sliderTrack);
-								_.sliderWrapper.find('.sliderItem').eq(_.totalSlidesWClones-_.defaults.numOfNextSlidesMobile-_i).clone(true).addClass('fClone').removeClass('current').prependTo(_.sliderTrack);
-							}
-						} else {
-							for ( var _i = 0; _i < Math.abs(_.defaults.numOfNextSlidesDesktop-_.defaults.numOfNextSlidesMobile); _i++ ) {
-								_.sliderWrapper.find('.sliderItem').eq(_.totalSlidesWClones-_i*2-1).remove();
-								_.sliderWrapper.find('.sliderItem').eq(_i).remove();
-							}
-						}
-					}
-				}
+				_.appendClones();
 
 				if ( _.defaults.vTop ) {
 					_.sliderWrapper.find('.sliderItem').removeClass('vTop');
@@ -259,6 +227,23 @@
 			}
 		});
 
+	}
+
+	fSlider.prototype.appendClones = function() {
+		var _ = this;
+		if ( _.defaults.loop && _.defaults.fade == false ) {
+			_.sliderWrapper.find('.fClone').remove();
+			_.clonesEachSide = _.numOfNextSlides;
+
+			if ( _.defaults.centerMode ) {
+				_.clonesEachSide = _.clonesEachSide*2;
+			}
+
+			for ( var _i = 0; _i < _.clonesEachSide; _i++ ) {
+				_.sliderItem.eq(_i).clone(true).addClass('fClone').appendTo(_.sliderTrack);
+				_.sliderItem.eq(_.totalSlides-(_i+1)).clone(true).addClass('fClone').prependTo(_.sliderTrack);
+			}
+		}
 	}
 
 	fSlider.prototype.autoplay = function() {
@@ -475,7 +460,7 @@
 				_.dots.eq(_.curSlideNum).addClass('current');
 			}
 
-			if ( !_.defaults.loop ) {
+			if ( _.defaults.loop == false ) {
 
 				if ( _.defaults.slidesToShowDesktop >= _.totalSlides ) {
 					_.arrowPrev.hide();
@@ -994,7 +979,7 @@
 		_.sliderWrapper.find('.fClone').remove();
 		_.sliderWrapper.unwrap().removeClass('fSlider');
 		_.sliderWrapper.attr('style', "");
-		_.sliderWrapper.find('.sliderItem').unwrap();
+		_.sliderWrapper.find('.sliderItem').removeClass('current').unwrap();
 
 	}
 

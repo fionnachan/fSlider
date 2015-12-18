@@ -45,7 +45,7 @@
 			}
 			pre {
 			    display: block;
-				max-width: 800px;
+				max-width: 840px;
 				width: 100%;
 			    font-family: monospace;
 				background-color: #000000;
@@ -133,7 +133,7 @@
 	slidesToShow: [<span class="value">1</span>, <span class="value">3</span>], <span class="comment">// for responsive, please pass an array, for non-responsive, pass either integer or array </span>
 	speed: <span class="value">500</span>, <span class="comment">// in ms</span>
 	vTop: <span class="value">false</span>, <span class="comment">// for fixed height, if this is not set, default = vertical-align: middle</span>
-	vBottom: <span class="value">false</span>, <span class="comment">// for fixed height, if this is not set, default = vertical-align: middle</span>	
+	vBottom: <span class="value">false</span>, <span class="comment">// for fixed height, if this is not set, default = vertical-align: middle</span>
 });
 
 sliderName.<span class="func">fSlider</span>(<span class="quot">'destroy'</span>); or <span class="jQuery">$</span>(<span class="quot">'.multi4Slider'</span>).<span class="func">fSlider</span>(<span class="quot">'destroy'</span>);
@@ -286,7 +286,7 @@ sliderName.<span class="func">fSlider</span>(<span class="quot">'destroy'</span>
 					xSlider = $('.thirdSlider').fSlider({
 						defaultCurrentSlide: 2,
 						showArrows: false,
-						autoplay: false
+						autoplay: true
 					});
 
 					$('.destroy').on('click', function(){
