@@ -1,0 +1,142 @@
+$dot-color: #ffcc00;
+$dot-hover-color: darken($dot-color, 10);
+$dot-active-color: darken($dot-color, 30);
+$dot-diameter: 10px;
+
+.fSliderWrapper {
+	margin: 0 auto;
+	&.centerMode {
+		overflow: hidden;
+		.fSlider {
+			overflow: visible;
+		}
+	}
+	.fSlider {
+		position: relative;
+		width: 0;
+		//height: 0;
+		overflow: hidden;
+		margin: 0 auto;
+		a[class|="fArrow"] {
+			position: absolute;
+			display: block;
+			top: 50%;
+			margin-top: -24px;
+			width: 0;
+			height: 0;
+			border-top: 24px solid transparent;
+			border-bottom: 24px solid transparent;
+			&:after {
+				content: '';
+				display: block;
+				position: absolute;
+				top: -22px;
+				border-top: 22px solid transparent;
+				border-bottom: 22px solid transparent;
+			}
+		}
+		.fArrow-prev {
+			left: 0;
+			border-right: 24px solid #000000;
+			&:after {
+				left: 2px;
+				border-right: 22px solid #ffcc00;
+			}
+			&.disabled {
+				border-right: 22px solid transparent;
+				&:after {				
+					border-right: 22px solid #aaaaaa;
+				}
+			}
+		}
+		.fArrow-next {
+			right: 0;
+			border-left: 24px solid #000000;
+			&:after {
+				right: 2px;
+				border-left: 22px solid #ffcc00;			
+			}
+			&.disabled {
+				border-left: 24px solid transparent;
+				&:after {				
+					border-left: 22px solid #aaaaaa;
+				}
+			}
+		}
+		.fSliderTrack {
+			position: absolute;
+			top: 0;
+			left: 0;
+			img {				
+			    -webkit-user-drag: none;
+			    -khtml-user-drag: none;
+			  	-moz-user-drag: none;
+			  	-o-user-drag: none;
+			 	user-drag: none;
+				-webkit-user-select: none;
+				   -moz-user-select: none;
+				    -ms-user-select: none;
+				        user-select: none;
+				-webkit-touch-callout: none;
+				-khtml-user-select: none;
+				-ms-touch-action: pan-y;
+				    touch-action: pan-y;
+				-webkit-tap-highlight-color: transparent;
+			}
+			&.fade {
+				position: relative;
+				overflow: hidden;
+				.sliderItem {
+					display: block;
+					position: absolute;
+					top: 50%;
+					left: 0;
+					display: none;
+					&.current {
+						display: block;
+					}
+				}
+			}
+			.sliderItem {
+				box-sizing: border-box;
+				display: inline-block;
+				vertical-align: middle;
+				&.vTop {
+					vertical-align: top;
+				}
+				&.vBottom {
+					vertical-align: bottom;
+				}
+				img {
+					display: block;
+				}
+			}
+		}
+	}	
+	.dotsWrapper {
+		position: relative;
+		padding: 20px 0;
+		.dot {
+			position: relative;
+			display: inline-block;
+			vertical-align: middle;
+			margin: 5px;
+			width: $dot-diameter;
+			height: $dot-diameter;
+			border-radius: 50%;
+			background-color: $dot-color;
+			cursor: pointer;
+			&:hover {
+				background-color: $dot-hover-color;
+			}
+			&.current {
+				background-color: $dot-active-color;
+			}
+		}
+	}
+}
+.cusDotsWrapper {
+	.cusdot {			
+		cursor: pointer;
+	}
+}
