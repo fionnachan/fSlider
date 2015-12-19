@@ -20,7 +20,7 @@ fSlider - v 0.7.0 - 2015-12-18
 	defaultCurrentSlide: 0, // start from 0
 	easing: 'easeOutExpo', // pass any jQuery easing
 	fade: false, // only display 1 slide
-	responsiveBreakPoint: [0, 960], // must include 0 ( onon: mResponsive_array; gigi: ObjName.layoutSize )
+	responsiveBreakPoint: [0, 960], // must include 0
 	responsive: true,
 	slidesToShow: [1, 3], // for responsive, please pass an array, for non-responsive, pass either integer or array 
 	speed: 500, // in ms
