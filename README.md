@@ -1,5 +1,7 @@
 # fSlider
 
+[Slider Demo] (http://fionnachan.github.io)
+
 fSlider - v 0.7.0 - 2015-12-18
 <pre>sliderName = $('.multi4Slider').fSlider({
 	arrowPrev: '&lt;a class="fArrow-prev" href="javascript:void(0);">&lt;/a>',
