@@ -1,4 +1,4 @@
-// fSlider - v 0.8.0 - 2015-12-18
+// fSlider - v 0.8.2 - 2015-12-18
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -48,7 +48,7 @@
 				loop: true, // ok
 				responsiveBreakPoint: [0, 960], // ok
 				numOfNextSlides: [1, 1], // ok
-				pauseOnHover: true, // pending
+				pauseOnHover: true, // ok
 				progressBar: false, // pending
 				responsive: true, // ok
 				showArrows: true, // ok
@@ -83,8 +83,6 @@
 			_.totalSlides = _.sliderItem.length;
 			_.totalSlidesWClones = 0;
 			_.curSlide = _.sliderItem.eq(_.defaults.defaultCurrentSlide);
-			_.firstSlide = null;
-			_.lastSlide = null;
 			_.isAnimating = false;
 			_.targetSlide = null;
 			_.numOfNextSlides = 1;
@@ -113,10 +111,7 @@
 		_.sliderTrack = _.sliderWrapper.find('.fSliderTrack');
 
 		_.autoResponsive();
-		
-		_.firstSlide = _.sliderWrapper.find('.sliderItem').eq(0);
-		_.lastSlide = _.sliderWrapper.find('.sliderItem').eq(_.totalSlides-1);
-		
+				
 		if ( _.defaults.centerMode ) {
 			_.sliderWrapper.parent('.fSliderWrapper').addClass('centerMode');
 		}
@@ -273,8 +268,8 @@
 			}
 		} else {
 			_.curBPIdx = 0;
-			_.checkSlidesToShow = ( typeof _.defaults.slidesToShow === "number" ) ? _.defaults.slidesToShow : _.defaults.slidesToShow[_.curBPIdx] ;
-			_.numOfNextSlides = ( typeof _.defaults.numOfNextSlides === "number" ) ? _.defaults.numOfNextSlides : _.defaults.numOfNextSlides[_.curBPIdx] ;
+			_.checkSlidesToShow = ( typeof _.defaults.slidesToShow == "number" ) ? _.defaults.slidesToShow : _.defaults.slidesToShow[_.curBPIdx] ;
+			_.numOfNextSlides = ( typeof _.defaults.numOfNextSlides == "number" ) ? _.defaults.numOfNextSlides : _.defaults.numOfNextSlides[_.curBPIdx] ;
 		}
 	}
 
@@ -482,7 +477,6 @@
 		if ( _.defaults.dots && _.dots ) {
 			_.dots.on('click',function() {
 				if ( _.isAnimating === false ) {
-
 					_.curSlide = _.sliderWrapper.find('.sliderItem.current');
 					_.curSlideNum = $(this).data('dot');
 
@@ -491,19 +485,43 @@
 					$(this).addClass('current').siblings('.dot').removeClass('current');
 
 					if ( _.defaults.fade === false ) {
-						var _newLeft = _.defaults.loop ? -_.sliderWrapper.find('.sliderItem').eq(0).outerWidth(true)*_.numOfNextSlides : 0;
-		
-						for ( var _i = 0; _i < _.curSlideNum; _i++ ) {
-							if ( _.defaults.loop || ( _.defaults.loop === false && _newLeft > -_.curSlide.outerWidth(true)*(_.totalSlides-_.checkSlidesToShow) ) ) {
-								_newLeft -= _.sliderWrapper.find('.sliderItem').eq(_i+1).outerWidth(true)*_.numOfNextSlides;
-							}					
+						var _newLeft = _.defaults.loop ? -_.curEachSlideWidth*(_.numOfNextSlides+_.clonesEachSide) : 0;
+						if ( _.defaults.centerMode ) {
+							_newLeft = -_.curEachSlideWidth*(_.numOfNextSlides+_.clonesEachSide/2);
+						}
+						
+						if ( _.defaults.loop || ( _.defaults.loop === false && _newLeft > -_.curEachSlideWidth*(_.totalSlides-_.checkSlidesToShow) ) ) {
+							for ( var _i = 0; _i < _.curSlideNum; _i++ ) {								
+								_newLeft -= _.curEachSlideWidth*_.numOfNextSlides;
+							}
+						}
+
+						if ( _.defaults.loop ) {
+							if ( _.curSlideNum === 0 && _.curSlide.index()+(_.numOfNextSlides-1) === _.totalSlidesWClones-_.clonesEachSide-1 ) {
+								_newLeft = _.curLeft-_.curEachSlideWidth*_.numOfNextSlides;
+							} else if ( (_.curSlideNum+1)*_.numOfNextSlides >= _.totalSlides-1 && _.curSlide.index() === _.clonesEachSide ) {
+								_newLeft = _.curLeft+_.curEachSlideWidth*_.numOfNextSlides;
+							}
 						}
 
 						_.sliderTrack.stop(true,false).animate({
 							"left" : _newLeft
 						}, _.defaults.speed, _.defaults.easing, function(){
+							if ( _.defaults.loop ) {
+								if ( _.curSlideNum === 0  && _.curSlide.index()+(_.numOfNextSlides-1) === _.totalSlidesWClones-_.clonesEachSide-1 ) {
+									_newLeft = -_.curEachSlideWidth*_.clonesEachSide;
+								} else if ( (_.curSlideNum+1)*_.numOfNextSlides >= _.totalSlides-1 &&  _.curSlide.index() === _.clonesEachSide ) {
+									_newLeft = -_.curEachSlideWidth*(_.totalSlidesWClones-_.clonesEachSide-_.numOfNextSlides)
+								}
+								_.sliderTrack.css({
+									"left" : _newLeft
+								});
+							}
+							if ( _.defaults.loop && _.curSlideNum === _.totalSlidesWClones-_.clonesEachSide-1 && _.curSlide.index() === 0 ) {
+								_newLeft = _.curLeft+_.curEachSlideWidth*_.numOfNextSlides;
+							}
 							if ( _.defaults.fade === false && _.defaults.loop === false) {
-								if ( _newLeft <= -_.curSlide.outerWidth(true)*(_.totalSlides-_.checkSlidesToShow) ) {
+								if ( _newLeft <= -_.curEachSlideWidth*(_.totalSlides-_.checkSlidesToShow) ) {
 									_.arrowNext.addClass('disabled');
 									_.arrowPrev.removeClass('disabled');
 								} else if ( _newLeft === 0 ) {
@@ -670,6 +688,17 @@
 	fSlider.prototype.touchEvent = function() {
 		var _ = this;
 		var startPos = 0;
+
+		_.sliderTrack.on('mouseover', function(){
+			if ( _.defaults.pauseOnHover ) {
+				clearTimeout(_.autoplayTimer);
+			}
+		}).on('mouseleave', function(){
+			if ( _.defaults.pauseOnHover ) {
+				_.autoplay();
+			}
+		});
+		
 
 		_.sliderTrack.on('mousedown touchstart', function (e) {
 			_.curLeft = parseInt(_.sliderTrack.css("left"));
