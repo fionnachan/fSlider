@@ -690,11 +690,11 @@
 		var startPos = 0;
 
 		_.sliderTrack.on('mouseover', function(){
-			if ( _.defaults.pauseOnHover ) {
+			if ( _.defaults.pauseOnHover && _.defaults.autoplay ) {
 				clearTimeout(_.autoplayTimer);
 			}
 		}).on('mouseleave', function(){
-			if ( _.defaults.pauseOnHover ) {
+			if ( _.defaults.pauseOnHover && _.defaults.autoplay ) {
 				_.autoplay();
 			}
 		});
