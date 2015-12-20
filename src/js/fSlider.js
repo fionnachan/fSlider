@@ -1,4 +1,4 @@
-// fSlider - v 0.7.0 - 2015-12-18
+// fSlider - v 0.8.0 - 2015-12-18
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -439,7 +439,7 @@
 			if ( _.defaults.customizeDots === false ) {
 				if ( _.totalSlides%_.checkSlidesToShow === 0 && 
 					_.totalSlides/_.checkSlidesToShow >= 2 && 
-					_.numOfNextSlides == _.checkSlidesToShow ) {
+					_.numOfNextSlides === _.checkSlidesToShow ) {
 
 					_dots = '<ul class="dotsWrapper">';
 					for ( var _i = 0; _i < _.totalSlides/_.checkSlidesToShow; _i++ ) {
@@ -851,11 +851,11 @@
 		_.sliderWrapper.find('.sliderItem').removeClass('current');
 		_.curLeft = parseInt(_.sliderTrack.css("left"));
 
-		if ( (dir == 'prev') ) {
+		if ( dir === 'prev' ) {
 			_.newCurIdx = _.curSlide.index() - _.numOfNextSlides;
 			if ( _.defaults.loop ) {
 				if ( _.defaults.centerMode ) {
-					if ( _.curLeft >= -_.curEachSlideWidth*_.clonesEachSide/2 && _.newCurIdx == _.clonesEachSide/2 ) {
+					if ( _.curLeft >= -_.curEachSlideWidth*_.clonesEachSide/2 && _.newCurIdx === _.clonesEachSide/2 ) {
 					// at last slides duplica --> go to real last slides
 						_.sliderTrack.css({
 							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*_.clonesEachSide*1.5
@@ -884,12 +884,12 @@
 					_.newCurIdx = _.clonesEachSide;
 				} else {
 					// add current to real first slide
-					if ( _.newCurIdx == _.totalSlidesWClones-_.clonesEachSide ) {
+					if ( _.newCurIdx === _.totalSlidesWClones-_.clonesEachSide ) {
 						_.newCurIdx = _.clonesEachSide;
 					}
 				}
 			} else {
-				if ( _.newCurIdx == _.totalSlides-_.clonesEachSide ) {
+				if ( _.newCurIdx === _.totalSlides-_.clonesEachSide ) {
 					_.newCurIdx = 0;
 				}		
 			}
@@ -910,14 +910,14 @@
 
 		_.isAnimating = true;
 
-		if ( dir == "dots" ) {
+		if ( dir === "dots" ) {
 			_.targetSlide = _.sliderWrapper.find('.sliderItem').eq(_.curSlideNum);
 			if ( _.curSlide.index() != _.curSlideNum ) fading();
 		} else {
-			if ( dir =="prev" ) {
+			if ( dir === "prev" ) {
 				_.newCurIdx = ( _.curSlide.index() > 0 ) ? _.curSlide.index() - 1 : _.totalSlides - 1;
-			} else if ( dir == "next" ) {
-				_.newCurIdx =  ( _.curSlide.index() == _.totalSlides-1 ) ? 0 : _.curSlide.index() + 1;
+			} else if ( dir === "next" ) {
+				_.newCurIdx =  ( _.curSlide.index() === _.totalSlides-1 ) ? 0 : _.curSlide.index() + 1;
 			}
 			_.targetSlide = _.sliderWrapper.find('.sliderItem').eq(_.newCurIdx);
 			fading();
@@ -944,8 +944,8 @@
 		_.curDot = _.sliderWrapper.next('.dotsWrapper').find('.dot.current');
 
 		if ( _.dots ) {
-			_dotIndex = ( dir == 'prev' ) ? (_.totalSlidesWClones-_.clonesEachSide*2)/_.numOfNextSlides-1 : 0;
-			if ( _.defaults.loop && _.curDot.index() == checkSlide ) {
+			_dotIndex = ( dir === 'prev' ) ? (_.totalSlidesWClones-_.clonesEachSide*2)/_.numOfNextSlides-1 : 0;
+			if ( _.defaults.loop && _.curDot.index() === checkSlide ) {
 				_.dots.removeClass('current').eq(_dotIndex).addClass('current');
 			} else {
 				if ( dir == 'prev' ) {
