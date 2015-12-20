@@ -485,7 +485,7 @@
 					$(this).addClass('current').siblings('.dot').removeClass('current');
 
 					if ( _.defaults.fade === false ) {
-						var _newLeft = _.defaults.loop ? -_.curEachSlideWidth*(_.numOfNextSlides+_.clonesEachSide) : 0;
+						var _newLeft = _.defaults.loop ? -_.curEachSlideWidth*_.clonesEachSide : 0;
 						if ( _.defaults.centerMode ) {
 							_newLeft = -_.curEachSlideWidth*(_.numOfNextSlides+_.clonesEachSide/2);
 						}
@@ -534,9 +534,13 @@
 							}
 							_.curLeft = _newLeft;
 
-							_.curSlideNum = -_.curLeft/_.curEachSlideWidth;
+							_.newCurIdx = _.curSlideNum = -_.curLeft/_.curEachSlideWidth;
 							_.curSlide.removeClass('current');
 							_.sliderWrapper.find('.sliderItem').eq(_.curSlideNum).addClass('current');
+
+							if ( _.defaults.dynamicHeight ) {
+								_.updateSliderHeight();
+							}
 							_.isAnimating = false;
 						});
 
