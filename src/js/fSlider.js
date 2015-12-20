@@ -1,4 +1,4 @@
-// fSlider - v 0.8.2 - 2015-12-18
+// fSlider - v 0.8.2 - 2015-12-20
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -477,6 +477,7 @@
 		if ( _.defaults.dots && _.dots ) {
 			_.dots.on('click',function() {
 				if ( _.isAnimating === false ) {
+					_.curLeft = parseInt(_.sliderTrack.css("left"));
 					_.curSlide = _.sliderWrapper.find('.sliderItem.current');
 					_.curSlideNum = $(this).data('dot');
 
@@ -499,7 +500,7 @@
 						if ( _.defaults.loop ) {
 							if ( _.curSlideNum === 0 && _.curSlide.index()+(_.numOfNextSlides-1) === _.totalSlidesWClones-_.clonesEachSide-1 ) {
 								_newLeft = _.curLeft-_.curEachSlideWidth*_.numOfNextSlides;
-							} else if ( (_.curSlideNum+1)*_.numOfNextSlides >= _.totalSlides-1 && _.curSlide.index() === _.clonesEachSide ) {
+							} else if ( (_.curSlideNum+1)*_.numOfNextSlides > _.totalSlides-1 && _.curSlide.index() === _.clonesEachSide ) {
 								_newLeft = _.curLeft+_.curEachSlideWidth*_.numOfNextSlides;
 							}
 						}
@@ -510,7 +511,7 @@
 							if ( _.defaults.loop ) {
 								if ( _.curSlideNum === 0  && _.curSlide.index()+(_.numOfNextSlides-1) === _.totalSlidesWClones-_.clonesEachSide-1 ) {
 									_newLeft = -_.curEachSlideWidth*_.clonesEachSide;
-								} else if ( (_.curSlideNum+1)*_.numOfNextSlides >= _.totalSlides-1 &&  _.curSlide.index() === _.clonesEachSide ) {
+								} else if ( (_.curSlideNum+1)*_.numOfNextSlides > _.totalSlides-1 &&  _.curSlide.index() === _.clonesEachSide ) {
 									_newLeft = -_.curEachSlideWidth*(_.totalSlidesWClones-_.clonesEachSide-_.numOfNextSlides)
 								}
 								_.sliderTrack.css({
