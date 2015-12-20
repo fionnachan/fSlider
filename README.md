@@ -31,6 +31,4 @@ fSlider - v 0.7.0 - 2015-12-18
 sliderName.fSlider('destroy'); or $('.multi4Slider').fSlider('destroy');
 </pre>
 
-sliderName.fSlider('destroy'); or $('.multi4Slider').fSlider('destroy');
-
 #### support IE8+
