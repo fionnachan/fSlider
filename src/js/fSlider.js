@@ -949,7 +949,6 @@
 		} else {
 			_.updateSliderHeight();
 			_.afterChangeSlide();
-					console.log('cur left after callback: ',_.sliderTrack.css("left"));
 		}
 		_.sliderWrapper.find('.sliderItem').eq(_.newCurIdx).addClass('current');
 		
