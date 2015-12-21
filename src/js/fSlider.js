@@ -229,7 +229,7 @@
 		var _ = this;
 		if ( _.defaults.loop && _.defaults.fade === false ) {
 			_.sliderWrapper.find('.fClone').remove();
-			_.clonesEachSide = _.checkSlidesToShow;
+			_.clonesEachSide = (_.numOfNextSlides > _.checkSlidesToShow) ? _.numOfNextSlides : _.checkSlidesToShow;
 
 			if ( _.defaults.centerMode ) {
 				_.clonesEachSide = _.clonesEachSide*2;
@@ -722,7 +722,7 @@
 				startPosX = touch.pageX;
 				startPosY = touch.pageY;
 
-				_.sliderTrack.on('mousemove touchmove', function (e) {
+				$(document).on('mousemove touchmove', function (e) {
 					if (e.type != 'mousemove') {
 						touch = e.originalEvent.targetTouches[0] || e.originalEvent.changedTouches[0];
 					} else {
@@ -750,7 +750,7 @@
 					}			
 					
 				});
-				_.sliderTrack.on('mouseup touchend', function (e) {
+				$(document).on('mouseup touchend', function (e) {
 					_thisLeft = parseInt(_.sliderTrack.css("left"));
 					touch = e;
 
@@ -759,8 +759,8 @@
 					} else {
 						e.preventDefault();
 					}
-					_.sliderTrack.off('mousemove touchmove');
-					_.sliderTrack.off('mouseup touchend');
+					$(document).off('mousemove touchmove');
+					$(document).off('mouseup touchend');
 
 					// detect direction
 					if ( _.defaults.fade ) {
@@ -860,8 +860,8 @@
 
 		function resetDragFunc() {
 			_.isAnimating = false;
-			_.sliderTrack.off('mousemove touchmove');
-			_.sliderTrack.off('mouseup touchend');
+			$(document).off('mousemove touchmove');
+			$(document).off('mouseup touchend');
 		}
 
 	}
@@ -895,7 +895,7 @@
 			_.newCurIdx = _.curSlide.index() - _.numOfNextSlides;
 			if ( _.defaults.loop ) {
 				if ( _.defaults.centerMode ) {
-					if ( _.curLeft >= -_.curEachSlideWidth*_.clonesEachSide/2 && _.newCurIdx === _.clonesEachSide/2 ) {
+					if ( (_.curLeft +_.curEachSlideWidth*_.clonesEachSide/2) < 10 && _.newCurIdx === _.clonesEachSide/2 ) {
 					// at last slides duplica --> go to real last slides
 						_.sliderTrack.css({
 							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*_.clonesEachSide*1.5
@@ -903,13 +903,12 @@
 						_.newCurIdx = _.totalSlidesWClones-_.clonesEachSide-_.checkSlidesToShow;
 					}
 				} else {		
-					if ( (_.newCurIdx === 0 && _.defaults.centerMode === false && stay === false) ||
-						 (_.curLeft >= 0 && _.newCurIdx === 0 && _.defaults.centerMode) ) {
+					if ( _.newCurIdx === _.clonesEachSide-_.numOfNextSlides && stay === false ) {
 					// at last slides duplica --> go to real last slides
 						_.sliderTrack.css({
-							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*_.clonesEachSide*2
+							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*(_.clonesEachSide+_.numOfNextSlides)
 						});
-						_.newCurIdx = _.totalSlidesWClones-_.clonesEachSide*2;
+						_.newCurIdx = (_.totalSlidesWClones-1)-_.clonesEachSide;
 					}
 				}
 			
@@ -920,13 +919,7 @@
 			if ( _.defaults.loop ) {
 				_.sliderTrackWidthWClones = _.sliderWrapper.find('.fSliderTrack').outerWidth(true);
 
-				var _addOne = ( _.clonesEachSide > 1 ) ? 1 : 0;
-
-				if ( _.defaults.centerMode ) {
-					_addOne = 0;
-				}
-
-				if ( _.curLeft <= - _.sliderTrackWidthWClones + _.curEachSlideWidth*(_.clonesEachSide+_addOne) ) {
+				if ( _.curLeft + _.sliderTrackWidthWClones - _.curEachSlideWidth*(_.clonesEachSide) < 10 ) {
 					// at first slide duplica --> go to real first slide
 					_.sliderTrack.css({
 						"left" : -_.curEachSlideWidth*_.clonesEachSide
