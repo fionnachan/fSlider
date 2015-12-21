@@ -714,12 +714,12 @@
 				resetDragFunc();
 				clearTimeout(_.autoplayTimer);
 
-				var touch = (e.type == 'touchstart') ? e.originalEvent.targetTouches[0] : e;
+				var touch = (e.type != 'mousestart') ? e.originalEvent.targetTouches[0] || e.originalEvent.changedTouches[0] : e;
 				startPosX = touch.pageX;
 				startPosY = touch.pageY;
 
 				_.sliderTrack.on('mousemove touchmove', function (e) {
-					touch = (e.type == 'touchmove') ? e.originalEvent.targetTouches[0] : e;
+					touch = (e.type != 'mousemove') ? e.originalEvent.targetTouches[0] || e.originalEvent.changedTouches[0] : e;
 					if ( startPosX - touch.pageX < 5 && startPosX - touch.pageX > -5 ) {
 						return;
 					}
@@ -747,7 +747,7 @@
 					touch = e;
 
 					if (e.type != 'mouseup') {
-						touch = e.originalEvent.targetTouches[0]; // || e.originalEvent.changedTouches[0];
+						touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
 					} else {
 						e.preventDefault();
 					}
