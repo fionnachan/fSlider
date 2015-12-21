@@ -48,7 +48,8 @@
     .fSliderWrapper .fSlider .fSliderTrack {
       position: absolute;
       top: 0;
-      left: 0; }
+      left: 0;
+      cursor: pointer; }
       .fSliderWrapper .fSlider .fSliderTrack img {
         -webkit-user-drag: none;
         -khtml-user-drag: none;
