@@ -93,6 +93,7 @@
 			_.maxSliderTrackLeft = 0;
 			_.newCurIdx = 0;
 			_.afterChangeSlide = _.defaults.callbacks.afterchangeSlide;
+			_.slideDir = null;
 
 			_.init();
 
@@ -228,7 +229,7 @@
 		var _ = this;
 		if ( _.defaults.loop && _.defaults.fade === false ) {
 			_.sliderWrapper.find('.fClone').remove();
-			_.clonesEachSide = _.numOfNextSlides;
+			_.clonesEachSide = _.checkSlidesToShow;
 
 			if ( _.defaults.centerMode ) {
 				_.clonesEachSide = _.clonesEachSide*2;
@@ -702,8 +703,7 @@
 			if ( _.defaults.pauseOnHover && _.defaults.autoplay ) {
 				_.autoplay();
 			}
-		});
-		
+		});		
 
 		_.sliderTrack.on('mousedown touchstart', function (e) {
 			_.curLeft = parseInt(_.sliderTrack.css("left"));
@@ -886,6 +886,7 @@
 		_.curLeft = parseInt(_.sliderTrack.css("left"));
 
 		if ( dir === 'prev' ) {
+			_.slideDir = 'prev';
 			_.newCurIdx = _.curSlide.index() - _.numOfNextSlides;
 			if ( _.defaults.loop ) {
 				if ( _.defaults.centerMode ) {
@@ -908,6 +909,7 @@
 			
 			}
 		} else {
+			_.slideDir = 'next';
 			_.newCurIdx = _.curSlide.index() + _.numOfNextSlides;
 			if ( _.defaults.loop ) {
 				if ( _.curLeft <= - _.sliderTrackWidthWClones + _.curEachSlideWidth*_.clonesEachSide ) {
@@ -932,10 +934,15 @@
 			_.newCurIdx = _.curSlide.index();
 		} else {			
 			_.updateSliderHeight();
+			_.afterChangeSlide();
 		}
 		_.sliderWrapper.find('.sliderItem').eq(_.newCurIdx).addClass('current');
+		
+	}
 
-		_.afterChangeSlide();		
+	fSlider.prototype.returnSlideDir = function() {
+		var _ = this;
+		return (_.slideDir === 'prev') ? 'prev' : 'next';
 	}
 
 	fSlider.prototype.fadeSlide = function( dir ) {
