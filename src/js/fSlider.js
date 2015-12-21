@@ -1,4 +1,4 @@
-// fSlider - v 0.8.2 - 2015-12-20
+// fSlider - v 0.8.3 - 2015-12-21
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -747,11 +747,12 @@
 					touch = e;
 
 					if (e.type != 'mouseup') {
-						touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+						touch = e.originalEvent.targetTouches[0]; // || e.originalEvent.changedTouches[0];
 					} else {
 						e.preventDefault();
 					}
-					resetDragFunc();
+					_.sliderTrack.off('mousemove touchmove');
+					_.sliderTrack.off('mouseup touchend');
 
 					// detect direction
 					if ( _.defaults.fade ) {
@@ -893,8 +894,9 @@
 						});
 						_.newCurIdx = _.totalSlidesWClones-_.clonesEachSide-_.checkSlidesToShow;
 					}
-				} else {
-					if ( _.curLeft >= 0 && _.newCurIdx === 0 ) {
+				} else {		
+					if ( (_.newCurIdx === 0 && _.defaults.centerMode === false) ||
+						 (_.curLeft >= 0 && _.newCurIdx === 0 && _.defaults.centerMode) ) {
 					// at last slides duplica --> go to real last slides
 						_.sliderTrack.css({
 							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*_.clonesEachSide*2
@@ -908,7 +910,15 @@
 			_.slideDir = 'next';
 			_.newCurIdx = _.curSlide.index() + _.numOfNextSlides;
 			if ( _.defaults.loop ) {
-				if ( _.curLeft <= - _.sliderTrackWidthWClones + _.curEachSlideWidth*_.clonesEachSide ) {
+				_.sliderTrackWidthWClones = _.sliderWrapper.find('.fSliderTrack').outerWidth(true);
+
+				var _addOne = ( _.clonesEachSide > 1 ) ? 1 : 0;
+
+				if ( _.defaults.centerMode ) {
+					_addOne = 0;
+				}
+
+				if ( _.curLeft <= - _.sliderTrackWidthWClones + _.curEachSlideWidth*(_.clonesEachSide+_addOne) ) {
 					// at first slide duplica --> go to real first slide
 					_.sliderTrack.css({
 						"left" : -_.curEachSlideWidth*_.clonesEachSide
@@ -928,9 +938,10 @@
 		}
 		if ( stay ) {
 			_.newCurIdx = _.curSlide.index();
-		} else {			
+		} else {
 			_.updateSliderHeight();
 			_.afterChangeSlide();
+					console.log('cur left after callback: ',_.sliderTrack.css("left"));
 		}
 		_.sliderWrapper.find('.sliderItem').eq(_.newCurIdx).addClass('current');
 		
