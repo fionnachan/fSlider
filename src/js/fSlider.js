@@ -903,7 +903,7 @@
 						_.newCurIdx = _.totalSlidesWClones-_.clonesEachSide-_.checkSlidesToShow;
 					}
 				} else {		
-					if ( (_.newCurIdx === 0 && _.defaults.centerMode === false) ||
+					if ( (_.newCurIdx === 0 && _.defaults.centerMode === false && stay === false) ||
 						 (_.curLeft >= 0 && _.newCurIdx === 0 && _.defaults.centerMode) ) {
 					// at last slides duplica --> go to real last slides
 						_.sliderTrack.css({
