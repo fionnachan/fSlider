@@ -693,7 +693,8 @@
 
 	fSlider.prototype.touchEvent = function() {
 		var _ = this;
-		var startPos = 0;
+		var startPosX = 0;
+		var startPosY = 0;
 
 		_.sliderTrack.on('mouseover', function(){
 			if ( _.defaults.pauseOnHover && _.defaults.autoplay ) {
@@ -712,33 +713,28 @@
 			if ( _.isAnimating === false ) {
 				resetDragFunc();
 				clearTimeout(_.autoplayTimer);
-				var touch = e;
-				if (e.type != 'mousedown') {
-					touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-				}
 
-				startPos = touch.pageX;
-				$(document).on('mousemove touchmove', function (e) {
-					var touch = e;
+				var touch = (e.type == 'touchstart') ? e.originalEvent.targetTouches[0] : e;
+				startPosX = touch.pageX;
+				startPosY = touch.pageY;
 
-					if (e.type != 'mousemove') {
-						touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-					}
-					if (startPos - touch.pageX < 5 && startPos - touch.pageX > -5 ) {
+				_.sliderTrack.on('mousemove touchmove', function (e) {
+					touch = (e.type == 'touchmove') ? e.originalEvent.targetTouches[0] : e;
+					if ( startPosX - touch.pageX < 5 && startPosX - touch.pageX > -5 ) {
 						return;
 					}
 					// slider position
 					if ( _.defaults.fade === false ) {
 						_.isAnimating = true;
-			  	  e.preventDefault();
+			  	  		e.preventDefault();
 						if ( (_.defaults.loop === false && _.curSlideNum === 0) ||
 							 (_.defaults.loop === false && _.curSlideNum + _.numOfNextSlides > _.totalSlides) ) {
 							_.sliderTrack.css({
-								'left': _.curLeft + (touch.pageX - startPos)/3
+								'left': _.curLeft + (touch.pageX - startPosX)/3
 							});
 						} else {
 							_.sliderTrack.css({
-								'left': _.curLeft + touch.pageX - startPos
+								'left': _.curLeft + touch.pageX - startPosX
 							});
 						}
 						_.curSlideNum = Math.ceil(-parseInt(_.sliderTrack.css("left")) / _.curEachSlideWidth);
@@ -746,9 +742,9 @@
 					}			
 					
 				});
-				$(document).on('mouseup touchend', function (e) {
+				_.sliderTrack.on('mouseup touchend', function (e) {
 					_thisLeft = parseInt(_.sliderTrack.css("left"));
-					var touch = e;
+					touch = e;
 
 					if (e.type != 'mouseup') {
 						touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
@@ -762,16 +758,16 @@
 						var _checkSwipeLength;
 						var _checkUpdateDot;
 						var _dotCondition;
-						if ( startPos < touch.pageX ) {
+						if ( startPosX < touch.pageX ) {
 							var dir = 'prev';
 							_checkUpdateDot = ( _.curSlideNum === 0 ) ? true : false;
 							_dotCondition = 0;
-							_checkSwipeLength = (touch.pageX - startPos > _.curEachSlideWidth*_.checkSlidesToShow/3) ? true : false;
+							_checkSwipeLength = (touch.pageX - startPosX > _.curEachSlideWidth*_.checkSlidesToShow/4) ? true : false;
 						} else {
 							var dir = 'next';
 							_checkUpdateDot = ( _.curSlideNum + _.numOfNextSlides < _.totalSlides ) ? true : false ;
 							_dotCondition = _.totalSlidesWClones - 1;
-							_checkSwipeLength = (startPos - touch.pageX > _.curEachSlideWidth*_.checkSlidesToShow/3) ? true : false;
+							_checkSwipeLength = (startPosX - touch.pageX > _.curEachSlideWidth*_.checkSlidesToShow/4) ? true : false;
 						}
 						if ( _checkSwipeLength ) {
 							_.fadeSlide( dir );							
@@ -785,21 +781,21 @@
 							var _stayAtCur = true;
 							if ( _thisLeft > _.curLeft ) { // prev
 								var dir = 'prev';
-								if ( touch.pageX - startPos > _.curEachSlideWidth*_.checkSlidesToShow/3 ) {
+								if ( touch.pageX - startPosX > _.curEachSlideWidth*_.checkSlidesToShow/4 ) {
 									if ( _.defaults.loop ) {
 										if ( _.curLeft === 0 ) {
 											_newLeft = -_.sliderTrackWidthWClones + _.curEachSlideWidth*_.numOfNextSlides*2;
-											_.sliderTrack.css({"left": -_.sliderTrackWidthWClones + _.curEachSlideWidth*_.numOfNextSlides + touch.pageX - startPos });
+											_.sliderTrack.css({"left": -_.sliderTrackWidthWClones + _.curEachSlideWidth*_.numOfNextSlides + touch.pageX - startPosX });
 											_stayAtCur = false;
 										} else {
 											_newLeft = _.curLeft + _.curEachSlideWidth*_.numOfNextSlides;
-											_.sliderTrack.css('left', _.curLeft + touch.pageX - startPos);
+											_.sliderTrack.css('left', _.curLeft + touch.pageX - startPosX);
 											_stayAtCur = false;
 										}
 									} else {
 										if ( _.curLeft < 0 ) {
 											_newLeft = _.curLeft + _.curEachSlideWidth*_.numOfNextSlides;
-											_.sliderTrack.css('left', _.curLeft + touch.pageX - startPos);
+											_.sliderTrack.css('left', _.curLeft + touch.pageX - startPosX);
 											_stayAtCur = false;
 										}
 									}
@@ -807,7 +803,7 @@
 							} else { // next
 								var dir = 'next';
 								if ( ! ( (_.defaults.loop === false && _thisLeft <= _.maxSliderTrackLeft) ||
-										startPos - touch.pageX < _.curEachSlideWidth*_.checkSlidesToShow/3 ) ) {
+										startPosX - touch.pageX < _.curEachSlideWidth*_.checkSlidesToShow/4 ) ) {
 									_newLeft = _.curLeft-_.curEachSlideWidth*_.numOfNextSlides;
 									_stayAtCur = false;
 								}
@@ -855,8 +851,8 @@
 
 		function resetDragFunc() {
 			_.isAnimating = false;
-			$(document).off('mousemove touchmove');
-			$(document).off('mouseup touchend');
+			_.sliderTrack.off('mousemove touchmove');
+			_.sliderTrack.off('mouseup touchend');
 		}
 
 	}
