@@ -1,4 +1,4 @@
-// fSlider - v 0.8.3 - 2015-12-21
+// fSlider - v 0.8.4 - 2015-12-22
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -706,6 +706,7 @@
 			}
 		});		
 
+		//$('.fSliderTrack').off('mousedown touchstart');
 		_.sliderTrack.on('mousedown touchstart', function (e) {
 			_.curLeft = parseInt(_.sliderTrack.css("left"));
 			var _thisLeft = parseInt(_.sliderTrack.css("left"));
@@ -722,7 +723,7 @@
 				startPosX = touch.pageX;
 				startPosY = touch.pageY;
 
-				$(document).on('mousemove touchmove', function (e) {
+				_.sliderTrack.on('mousemove touchmove', function (e) {
 					if (e.type != 'mousemove') {
 						touch = e.originalEvent.targetTouches[0] || e.originalEvent.changedTouches[0];
 					} else {
@@ -747,36 +748,41 @@
 						}
 						_.curSlideNum = Math.ceil(-parseInt(_.sliderTrack.css("left")) / _.curEachSlideWidth);
 						_.isAnimating = false;
-					}			
-					
+					}
+					if ( ( parseInt(_.sliderTrack.css("left")) > _.curLeft && 
+							touch.pageX >= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()*3/4) ||
+						 ( parseInt(_.sliderTrack.css("left")) < _.curLeft &&
+						 	touch.pageX <= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()/4 ) ) {
+						_.sliderTrack.off('mousemove').trigger('mouseup');
+					}
 				});
-				$(document).on('mouseup touchend', function (e) {
+				_.sliderTrack.on('mouseup touchend', function (e) {
 					_thisLeft = parseInt(_.sliderTrack.css("left"));
 					touch = e;
 
 					if (e.type != 'mouseup') {
 						touch = e.originalEvent.targetTouches[0] || e.originalEvent.changedTouches[0];
 					} else {
-						e.preventDefault();
+						//e.preventDefault();
 					}
-					$(document).off('mousemove touchmove');
-					$(document).off('mouseup touchend');
+					_.sliderTrack.off('mousemove touchmove');
+					_.sliderTrack.off('mouseup touchend');
 
 					// detect direction
 					if ( _.defaults.fade ) {
 						var _checkSwipeLength;
 						var _checkUpdateDot;
 						var _dotCondition;
-						if ( startPosX < touch.pageX ) {
+						if ( startPosX > touch.pageX ) {
 							var dir = 'prev';
-							_checkUpdateDot = ( _.curSlideNum === 0 ) ? true : false;
-							_dotCondition = 0;
-							_checkSwipeLength = (touch.pageX - startPosX > _.curEachSlideWidth*_.checkSlidesToShow/4) ? true : false;
-						} else {
-							var dir = 'next';
 							_checkUpdateDot = ( _.curSlideNum + _.numOfNextSlides < _.totalSlides ) ? true : false ;
 							_dotCondition = _.totalSlidesWClones - 1;
 							_checkSwipeLength = (startPosX - touch.pageX > _.curEachSlideWidth*_.checkSlidesToShow/4) ? true : false;
+						} else {
+							var dir = 'next';
+							_checkUpdateDot = ( _.curSlideNum === 0 ) ? true : false;
+							_dotCondition = 0;
+							_checkSwipeLength = (touch.pageX - startPosX > _.curEachSlideWidth*_.checkSlidesToShow/4) ? true : false;
 						}
 						if ( _checkSwipeLength ) {
 							_.fadeSlide( dir );							
@@ -790,7 +796,7 @@
 							var _stayAtCur = true;
 							if ( _thisLeft > _.curLeft ) { // prev
 								var dir = 'prev';
-								if ( touch.pageX - startPosX > _.curEachSlideWidth*_.checkSlidesToShow/4 ) {
+								if ( _thisLeft - _.curLeft > _.curEachSlideWidth*_.checkSlidesToShow/4 ) {
 									if ( _.defaults.loop ) {
 										if ( _.curLeft === 0 ) {
 											_newLeft = -_.sliderTrackWidthWClones + _.curEachSlideWidth*_.numOfNextSlides*2;
@@ -811,8 +817,8 @@
 								}
 							} else { // next
 								var dir = 'next';
-								if ( ! ( (_.defaults.loop === false && _thisLeft <= _.maxSliderTrackLeft) ||
-										startPosX - touch.pageX < _.curEachSlideWidth*_.checkSlidesToShow/4 ) ) {
+								if (  ! (_.defaults.loop === false && _thisLeft <= _.maxSliderTrackLeft) ||
+										startPosX - touch.pageX > _.curEachSlideWidth*_.checkSlidesToShow/4 ) {
 									_newLeft = _.curLeft-_.curEachSlideWidth*_.numOfNextSlides;
 									_stayAtCur = false;
 								}
@@ -860,8 +866,8 @@
 
 		function resetDragFunc() {
 			_.isAnimating = false;
-			$(document).off('mousemove touchmove');
-			$(document).off('mouseup touchend');
+			_.sliderTrack.off('mousemove touchmove');
+			_.sliderTrack.off('mouseup touchend');
 		}
 
 	}
