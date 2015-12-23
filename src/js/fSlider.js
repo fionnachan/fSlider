@@ -489,7 +489,11 @@
 					if ( _.defaults.fade === false ) {
 						var _newLeft = _.defaults.loop ? -_.curEachSlideWidth*_.clonesEachSide : 0;
 						if ( _.defaults.centerMode ) {
-							_newLeft = -_.curEachSlideWidth*(_.numOfNextSlides+_.clonesEachSide/2);
+							if ( _.slidesToShow === 1 ) {
+								_newLeft = -_.curEachSlideWidth*(_.numOfNextSlides+_.clonesEachSide-1);
+							} else {
+								_newLeft = -_.curEachSlideWidth*(_.numOfNextSlides+_.clonesEachSide/2);
+							}
 						}
 						
 						if ( _.defaults.loop || ( _.defaults.loop === false && _newLeft > -_.curEachSlideWidth*(_.totalSlides-_.checkSlidesToShow) ) ) {
@@ -911,10 +915,11 @@
 			_.newCurIdx = _.curSlide.index() - _.numOfNextSlides;
 			if ( _.defaults.loop ) {
 				if ( _.defaults.centerMode ) {
-					if ( _.curLeft +_.curEachSlideWidth*_.clonesEachSide/2 < 10 && _.newCurIdx === _.clonesEachSide/2 && stay === false ) {
+					if ( _.curLeft +_.curEachSlideWidth*_.clonesEachSide/2 < 10 && 
+						_.newCurIdx === _.clonesEachSide-1 && stay === false ) {
 					// at last slides duplica --> go to real last slides
 						_.sliderTrack.css({
-							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*_.clonesEachSide*1.5
+							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*(_.clonesEachSide+1)
 						});
 						_.newCurIdx = _.totalSlidesWClones-_.clonesEachSide-_.checkSlidesToShow;
 					}
