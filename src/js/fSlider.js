@@ -901,7 +901,7 @@
 			_.newCurIdx = _.curSlide.index() - _.numOfNextSlides;
 			if ( _.defaults.loop ) {
 				if ( _.defaults.centerMode ) {
-					if ( (_.curLeft +_.curEachSlideWidth*_.clonesEachSide/2) < 10 && _.newCurIdx === _.clonesEachSide/2 ) {
+					if ( _.curLeft +_.curEachSlideWidth*_.clonesEachSide/2 < 10 && _.newCurIdx === _.clonesEachSide/2 && stay === false ) {
 					// at last slides duplica --> go to real last slides
 						_.sliderTrack.css({
 							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*_.clonesEachSide*1.5
@@ -925,7 +925,7 @@
 			if ( _.defaults.loop ) {
 				_.sliderTrackWidthWClones = _.sliderWrapper.find('.fSliderTrack').outerWidth(true);
 
-				if ( _.curLeft + _.sliderTrackWidthWClones - _.curEachSlideWidth*(_.clonesEachSide) < 10 ) {
+				if ( _.curLeft + _.sliderTrackWidthWClones - _.curEachSlideWidth*(_.clonesEachSide) < 10 && stay === false ) {
 					// at first slide duplica --> go to real first slide
 					_.sliderTrack.css({
 						"left" : -_.curEachSlideWidth*_.clonesEachSide
