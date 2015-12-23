@@ -743,21 +743,23 @@
 							});
 						}
 						_.curSlideNum = Math.ceil(-parseInt(_.sliderTrack.css("left")) / _.curEachSlideWidth);
-						if ( _.defaults.centerMode ) {
-							if ( ( touch.pageX > _.sliderWrapper.parent('.fSliderWrapper').offset().left + _.sliderWrapper.parent('.fSliderWrapper').outerWidth()*23/24 ) ||
-								 ( touch.pageX < _.sliderWrapper.parent('.fSliderWrapper').offset().left + _.sliderWrapper.parent('.fSliderWrapper').outerWidth()/24 ) ||							
-								 ( touch.pageY < _.sliderWrapper.parent('.fSliderWrapper').offset().top + _.sliderWrapper.outerHeight()/12 ) ||
-								 ( touch.pageY > _.sliderWrapper.parent('.fSliderWrapper').offset().top + _.sliderWrapper.outerHeight()*11/12 ) ) {
-								_.sliderTrack.trigger('mouseup');
+						if ( touch = e ) {
+							if ( _.defaults.centerMode ) {
+								if ( ( touch.pageX > _.sliderWrapper.parent('.fSliderWrapper').offset().left + _.sliderWrapper.parent('.fSliderWrapper').outerWidth()*23/24 ) ||
+									 ( touch.pageX < _.sliderWrapper.parent('.fSliderWrapper').offset().left + _.sliderWrapper.parent('.fSliderWrapper').outerWidth()/24 ) ||							
+									 ( touch.pageY < _.sliderWrapper.parent('.fSliderWrapper').offset().top + _.sliderWrapper.outerHeight()/12 ) ||
+									 ( touch.pageY > _.sliderWrapper.parent('.fSliderWrapper').offset().top + _.sliderWrapper.outerHeight()*11/12 ) ) {
+									_.sliderTrack.trigger('mouseup');
+								}
+							} else {
+								if ( ( touch.pageX > _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()*23/24 ) ||
+									 ( touch.pageX < _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()/24 ) ||							
+									 ( touch.pageY < _.sliderWrapper.offset().top + _.sliderWrapper.outerHeight()/12 ) ||
+									 ( touch.pageY > _.sliderWrapper.offset().top + _.sliderWrapper.outerHeight()*11/12 ) ) {
+									_.sliderTrack.trigger('mouseup');
+								}
 							}
-						} else {
-							if ( ( touch.pageX > _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()*23/24 ) ||
-								 ( touch.pageX < _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()/24 ) ||							
-								 ( touch.pageY < _.sliderWrapper.offset().top + _.sliderWrapper.outerHeight()/12 ) ||
-								 ( touch.pageY > _.sliderWrapper.offset().top + _.sliderWrapper.outerHeight()*11/12 ) ) {
-								_.sliderTrack.trigger('mouseup');
-							}
-						}
+						}						
 						
 						_.isAnimating = false;
 					}
@@ -825,7 +827,7 @@
 							} else { // next
 								var dir = 'next';
 								if ( startPosX - touch.pageX > _.curEachSlideWidth*_.checkSlidesToShow/4 ) {
-									if (  (! _.defaults.loop === false && _thisLeft <= _.maxSliderTrackLeft)) {
+									if (  ! ( _.defaults.loop === false && _thisLeft <= _.maxSliderTrackLeft) ) {
 										_newLeft = _.curLeft-_.curEachSlideWidth*_.numOfNextSlides;
 										_stayAtCur = false;
 									}
