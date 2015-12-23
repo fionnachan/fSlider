@@ -3,8 +3,8 @@
 [Slider Demo] (http://fionnachan.github.io)
 
 <pre>sliderName = $('.multi4Slider').fSlider({
-	arrowPrev: '<a class="fArrow-prev" href="javascript:void(0);"></a>',
-	arrowNext: '<a class="fArrow-next" href="javascript:void(0);"></a>',	
+	arrowPrevClass: 'fArrow-prev', // provided for easy styling of arrows
+	arrowNextClass: 'fArrow-next', // provided for easy styling of arrows
 	autoplay: false,	
 	autoplaySpeed: 3000, // in ms
 	loop: false,
