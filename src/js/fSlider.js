@@ -29,8 +29,8 @@
 			var _ = this;
 
 			_.defaults = {
-				arrowPrev: '<a class="fArrow-prev" href="javascript:void(0);"></a>', // ok
-				arrowNext: '<a class="fArrow-next" href="javascript:void(0);"></a>', // ok
+				arrowPrevClass: "fArrow-prev", // ok
+				arrowNextClass: "fArrow-next", // ok
 				autoplay: false, // ok
 				autoplaySpeed: 3000, // ok
 				callbacks: {
@@ -133,9 +133,9 @@
 		_.calcSliderDimension();
 		_.curSlide.addClass('current');
 
-		_.sliderWrapper.append(_.defaults.arrowPrev).append(_.defaults.arrowNext);
-		_.arrowPrev = _.sliderWrapper.find('.fArrow-prev');
-		_.arrowNext = _.sliderWrapper.find('.fArrow-next');
+		_.sliderWrapper.append('<a class="'+_.defaults.arrowPrevClass+'" href="javascript:void(0);"></a>').append('<a class="'+_.defaults.arrowNextClass+'" href="javascript:void(0);"></a>');
+		_.arrowPrev = _.sliderWrapper.find('.'+_.defaults.arrowPrevClass);
+		_.arrowNext = _.sliderWrapper.find('.'+_.defaults.arrowNextClass);
 		if ( _.defaults.loop === false && _.defaults.fade === false && _.defaults.defaultCurrentSlide === 0 ) {
 			_.arrowPrev.addClass('disabled');
 		}
@@ -161,8 +161,8 @@
 			_.updateSliderDimension();
 
 			if ( _.defaults.showArrows ) {
-				_.arrowPrev = _.sliderWrapper.find('.fArrow-prev');
-				_.arrowNext = _.sliderWrapper.find('.fArrow-next');
+				_.arrowPrev = _.sliderWrapper.find('.'+_.defaults.arrowPrevClass);
+				_.arrowNext = _.sliderWrapper.find('.'+_.defaults.arrowNextClass);
 				if ( _.defaults.loop === false ) {
 					_.updateArrowsforNoLoop();
 				}
