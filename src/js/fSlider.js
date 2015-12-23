@@ -232,7 +232,7 @@
 			_.clonesEachSide = (_.numOfNextSlides > _.checkSlidesToShow) ? _.numOfNextSlides : _.checkSlidesToShow;
 
 			if ( _.defaults.centerMode ) {
-				_.clonesEachSide = _.clonesEachSide*2;
+				_.clonesEachSide = _.clonesEachSide*(1+Math.ceil(_.defaults.showSiblingsHowMuch));
 			}
 
 			for ( var _i = 0; _i < _.clonesEachSide; _i++ ) {
