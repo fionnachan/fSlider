@@ -13,7 +13,7 @@
 	}, // can pass a function
 	customizeDots: false, // can use thumbnails	
 	centerMode: false,
-	showSiblingsHowMuch: 0.5, // 0 < value < 1; 0.5 = show 50% width of the sibling slide
+	showSiblingsHowMuch: 0.5, // 0.5 = show 50% width of the sibling slide, if value > 1, > 1 slides will be on each side of the center slide(s)
 	dots: true,
 	drag: true,
 	dynamicHeight: false, // if this is set false, default slider item vertical-align: middle
