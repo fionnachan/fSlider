@@ -750,7 +750,7 @@
 						_.isAnimating = false;
 					}
 					if ( ( parseInt(_.sliderTrack.css("left")) > _.curLeft && 
-							touch.pageX >= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()*3/4) ||
+							touch.pageX >= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()*10/11) ||
 						 ( parseInt(_.sliderTrack.css("left")) < _.curLeft &&
 						 	touch.pageX <= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()/4 ) ) {
 						_.sliderTrack.off('mousemove').trigger('mouseup');
