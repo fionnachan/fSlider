@@ -746,13 +746,13 @@
 							});
 						}
 						_.curSlideNum = Math.ceil(-parseInt(_.sliderTrack.css("left")) / _.curEachSlideWidth);
-						_.isAnimating = false;
 						if ( ( parseInt(_.sliderTrack.css("left")) > _.curLeft && 
 								touch.pageX >= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()*11/12) ||
 							 ( parseInt(_.sliderTrack.css("left")) < _.curLeft &&
-							 	touch.pageX <= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()/4 ) ) {
+							 	touch.pageX <= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()/12 ) ) {
 							_.sliderTrack.off('mousemove').trigger('mouseup');
 						}
+						_.isAnimating = false;
 					}
 					
 				});
