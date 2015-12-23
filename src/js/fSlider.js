@@ -747,9 +747,9 @@
 						}
 						_.curSlideNum = Math.ceil(-parseInt(_.sliderTrack.css("left")) / _.curEachSlideWidth);
 						if ( ( parseInt(_.sliderTrack.css("left")) > _.curLeft && 
-								touch.pageX >= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()*11/12) ||
+								touch.pageX >= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()*23/24) ||
 							 ( parseInt(_.sliderTrack.css("left")) < _.curLeft &&
-							 	touch.pageX <= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()/12 ) ) {
+							 	touch.pageX <= _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()/24 ) ) {
 							_.sliderTrack.off('mousemove').trigger('mouseup');
 						}
 						_.isAnimating = false;
