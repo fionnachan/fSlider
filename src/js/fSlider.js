@@ -1,4 +1,4 @@
-// fSlider - v 0.8.4 - 2015-12-23
+// fSlider - v 0.8.5 - 2015-12-24
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -489,7 +489,7 @@
 					if ( _.defaults.fade === false ) {
 						var _newLeft = _.defaults.loop ? -_.curEachSlideWidth*_.clonesEachSide : 0;
 						if ( _.defaults.centerMode ) {
-							if ( _.slidesToShow === 1 ) {
+							if ( _.numOfNextSlides === 1 ) {
 								_newLeft = -_.curEachSlideWidth*(_.numOfNextSlides+_.clonesEachSide-1);
 							} else {
 								_newLeft = -_.curEachSlideWidth*(_.numOfNextSlides+_.clonesEachSide/2);
@@ -503,9 +503,11 @@
 						}
 
 						if ( _.defaults.loop ) {
-							if ( _.curSlideNum === 0 && _.curSlide.index()+(_.numOfNextSlides-1) === _.totalSlidesWClones-_.clonesEachSide-1 ) {
+							if ( _.curSlideNum === 0 && 
+								_.curSlide.index()+(_.numOfNextSlides-1) === _.totalSlidesWClones-_.clonesEachSide-1 ) {
 								_newLeft = _.curLeft-_.curEachSlideWidth*_.numOfNextSlides;
-							} else if ( (_.curSlideNum+1)*_.numOfNextSlides > _.totalSlides-1 && _.curSlide.index() === _.clonesEachSide ) {
+							} else if ( (_.curSlideNum+1)*_.numOfNextSlides > _.totalSlides-1 && 
+								_.curSlide.index() === _.clonesEachSide ) {
 								_newLeft = _.curLeft+_.curEachSlideWidth*_.numOfNextSlides;
 							}
 						}
@@ -514,9 +516,9 @@
 							"left" : _newLeft
 						}, _.defaults.speed, _.defaults.easing, function(){
 							if ( _.defaults.loop ) {
-								if ( _.curSlideNum === 0  && _.curSlide.index()+(_.numOfNextSlides-1) === _.totalSlidesWClones-_.clonesEachSide-1 ) {
+								if ( _.curSlideNum === 0  && _.curSlide.index()+(_.numOfNextSlides-1) <= _.totalSlidesWClones-_.clonesEachSide-1 ) {
 									_newLeft = -_.curEachSlideWidth*_.clonesEachSide;
-								} else if ( (_.curSlideNum+1)*_.numOfNextSlides > _.totalSlides-1 &&  _.curSlide.index() === _.clonesEachSide ) {
+								} else if ( (_.curSlideNum+1)*_.numOfNextSlides > _.totalSlides-1 &&  _.curSlide.index() <= _.clonesEachSide ) {
 									_newLeft = -_.curEachSlideWidth*(_.totalSlidesWClones-_.clonesEachSide-_.numOfNextSlides)
 								}
 								_.sliderTrack.css({
