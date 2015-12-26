@@ -1,4 +1,4 @@
-// fSlider - v 0.8.5 - 2015-12-24
+// fSlider - v 0.8.5 - 2015-12-26
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -198,11 +198,9 @@
 				_.appendClones();
 
 				if ( _.defaults.vTop ) {
-					_.sliderWrapper.find('.sliderItem').removeClass('vTop');
-					_.sliderWrapper.find('.sliderItem').addClass('vTop');
+					_.sliderWrapper.find('.sliderItem').removeClass('vTop').addClass('vTop');
 				} else if ( _.defaults.vBottom ) {
-					_.sliderWrapper.find('.sliderItem').removeClass('vBottom');
-					_.sliderWrapper.find('.sliderItem').addClass('vBottom');
+					_.sliderWrapper.find('.sliderItem').removeClass('vBottom').addClass('vBottom');
 				}
 
 				_.updateSliderDimension();
@@ -320,7 +318,6 @@
 				"width" : _.curEachSlideWidth,
 				"height" : _fadeHeight
 			});
-
 			_.curSlide.css({ "marginTop" : - _.curSlide.outerHeight(true)/2 });
 		} else {
 			_.sliderTrackWidthWClones = _.totalSlidesWClones*_.curEachSlideWidth;
@@ -915,24 +912,24 @@
 		if ( dir === 'prev' ) {
 			_.slideDir = 'prev';
 			_.newCurIdx = _.curSlide.index() - _.numOfNextSlides;
-			if ( _.defaults.loop ) {
-				if ( _.defaults.centerMode ) {
-					if ( _.curLeft +_.curEachSlideWidth*_.clonesEachSide/2 < 10 && 
-						_.newCurIdx === _.clonesEachSide-1 && stay === false ) {
-					// at last slides duplica --> go to real last slides
-						_.sliderTrack.css({
-							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*(_.clonesEachSide+1)
-						});
-						_.newCurIdx = _.totalSlidesWClones-_.clonesEachSide-_.checkSlidesToShow;
-					}
-				} else {		
-					if ( _.newCurIdx === _.clonesEachSide-_.numOfNextSlides && stay === false ) {
+			if ( _.defaults.loop && stay === false ) {
+				if ( ( _.defaults.centerMode && 
+						_.curLeft +_.curEachSlideWidth*_.clonesEachSide/2 < 10 && 
+						_.newCurIdx <= _.clonesEachSide-1 ) || 
+						( _.defaults.centerMode === false &&
+						_.newCurIdx <= _.clonesEachSide-_.numOfNextSlides ) ) {
 					// at last slides duplica --> go to real last slides
 						_.sliderTrack.css({
 							"left" : -_.sliderTrackWidthWClones+_.curEachSlideWidth*(_.clonesEachSide+_.numOfNextSlides)
 						});
-						_.newCurIdx = (_.totalSlidesWClones-1)-_.clonesEachSide;
-					}
+
+						if ( _.defaults.centerMode && 
+						_.curLeft +_.curEachSlideWidth*_.clonesEachSide/2 < 10 && 
+						_.newCurIdx <= _.clonesEachSide-1 ) {
+							_.newCurIdx = _.totalSlidesWClones-_.clonesEachSide-_.checkSlidesToShow;
+						} else {
+							_.newCurIdx = (_.totalSlidesWClones-1)-_.clonesEachSide;
+						}
 				}
 			
 			}
