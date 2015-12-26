@@ -102,7 +102,7 @@
 		return fSlider;
 	}());
 
-	fSlider.prototype.init = function( reinit ) {
+	fSlider.prototype.init = function() {
 		var _ = this;
 		var _maxSlideHeight = 0;
 
@@ -768,7 +768,7 @@
 					}
 					
 				});
-				_.sliderTrack.on('mouseup touchend', function (e) {
+				_.sliderTrack.on('mouseup touchend', function(e) {
 					_thisLeft = parseInt(_.sliderTrack.css("left"));
 					touch = e;
 
