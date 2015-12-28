@@ -1,4 +1,4 @@
-// fSlider - v 0.8.5 - 2015-12-26
+// fSlider - v 0.8.5 - 2015-12-27
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -158,6 +158,9 @@
 			} else {
 				_.curTop = -_.curEachSlideHeight*_.curSlide.index();
 			}
+
+			_.resetfSliderWrapperMaxWidth();
+
 			_.updateSliderDimension();
 
 			if ( _.defaults.showArrows ) {
@@ -202,6 +205,8 @@
 				} else if ( _.defaults.vBottom ) {
 					_.sliderWrapper.find('.sliderItem').removeClass('vBottom').addClass('vBottom');
 				}
+
+				_.resetfSliderWrapperMaxWidth();
 
 				_.updateSliderDimension();
 
@@ -385,11 +390,7 @@
 			}
 		}
 
-		if ( _.defaults.centerMode ) {
-			_.sliderWrapper.parent('.fSliderWrapper').css({
-				"maxWidth" : "100%"
-			});
-		}
+		_.resetfSliderWrapperMaxWidth();
 		
 		_.curEachSlideWidth = _.sliderWrapper.outerWidth()/_.checkSlidesToShow;
 		_.curLeft = -_.curEachSlideWidth*_.curSlide.index();
@@ -421,6 +422,15 @@
 			});
 		}	
 
+	}
+
+	fSlider.prototype.resetfSliderWrapperMaxWidth = function(){
+		var _ = this;
+		if ( _.defaults.centerMode ) {
+			_.sliderWrapper.parent('.fSliderWrapper').css({
+				"maxWidth" : "100%"
+			});
+		}
 	}
 
 	fSlider.prototype.buildDots = function() {
