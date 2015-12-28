@@ -381,7 +381,7 @@
 						"height" : _sliderHeight
 					});
 				} else {
-					_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
+					_sliderHeight = Math.floor( _.sliderWrapper.find('.sliderItem').outerHeight() );
 					_.sliderWrapper.css({
 						"height" : _sliderHeight
 					});
