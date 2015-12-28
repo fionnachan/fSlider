@@ -496,6 +496,7 @@
 				if ( _.isAnimating === false ) {
 					_.curLeft = parseInt(_.sliderTrack.css("left"));
 					_.curSlide = _.sliderWrapper.find('.sliderItem.current');
+					_.sliderWrapper.find('.sliderItem').removeClass('current');
 					_.curSlideNum = $(this).data('dot');
 
 					_.isAnimating = true;
@@ -611,6 +612,9 @@
 					}
 
 					if ( _newLeft != _.curLeft ) {
+
+						_.curSlide = _.sliderWrapper.find('.sliderItem.current');
+						_.sliderWrapper.find('.sliderItem').removeClass('current');
 						_.sliderTrack.stop(true,false).animate({
 							"left" : _newLeft
 						},_.defaults.speed,_.defaults.easing,function(){
@@ -643,6 +647,9 @@
 					}
 
 					if ( _newLeft != _.curLeft ) {
+
+						_.curSlide = _.sliderWrapper.find('.sliderItem.current');
+						_.sliderWrapper.find('.sliderItem').removeClass('current');
 						_.sliderTrack.stop(true,false).animate({
 							"left" : _newLeft
 						},_.defaults.speed,_.defaults.easing,function(){
@@ -690,6 +697,8 @@
 					}
 					
 					if ( _.defaults.loop || ( _.defaults.loop === false && _.curLeft > _.maxSliderTrackLeft ) ) {
+						_.curSlide = _.sliderWrapper.find('.sliderItem.current');
+						_.sliderWrapper.find('.sliderItem').removeClass('current');
 						_.sliderTrack.stop(true,false).animate({
 							"left" : _.curLeft - _.curEachSlideWidth*_.numOfNextSlides
 						},_.defaults.speed,_.defaults.easing,function(){
@@ -858,6 +867,8 @@
 							}
 							_.isAnimating = true;
 
+							_.curSlide = _.sliderWrapper.find('.sliderItem.current');
+							_.sliderWrapper.find('.sliderItem').removeClass('current');
 							_.sliderTrack.stop(true,false).animate({
 								'left': _newLeft
 							}, _.defaults.speed, _.defaults.easing, function() {
@@ -925,8 +936,6 @@
 		if ( typeof stay === "undefined" ) {
 			stay = false;
 		}
-		_.curSlide = _.sliderWrapper.find('.sliderItem.current');
-		_.sliderWrapper.find('.sliderItem').removeClass('current');
 		_.curLeft = parseInt(_.sliderTrack.css("left"));
 
 		if ( dir === 'prev' ) {
