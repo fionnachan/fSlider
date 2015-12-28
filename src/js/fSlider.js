@@ -413,13 +413,13 @@
 					"width": _.sliderTrackWidthWClones,
 					"left" : _.curLeft
 				});
-				_.setCenterModeDimension();
+				_.setCenterModeDimension( _sliderHeight );
 			}
 		}	
 
 	}
 
-	fSlider.prototype.setCenterModeDimension = function(_sliderHeight) {
+	fSlider.prototype.setCenterModeDimension = function( _sliderHeight ) {
 		var _ = this;
 		if ( _.defaults.centerMode ) {						
 			_.sliderWrapper.css({
