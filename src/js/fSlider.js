@@ -416,10 +416,12 @@
 				"width": _.curEachSlideWidth
 			});
 		} else {
-			_.sliderTrack.css({
-				"width": _.sliderTrackWidthWClones,
-				"left" : _.curLeft
-			});
+			if ( _.defaults.fade === false ) {
+				_.sliderTrack.css({
+					"width": _.sliderTrackWidthWClones,
+					"left" : _.curLeft
+				});
+			}
 		}	
 
 	}
