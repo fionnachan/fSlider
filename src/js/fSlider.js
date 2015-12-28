@@ -37,7 +37,7 @@
 					afterchangeSlide: function(){}
 				}, // ok
 				centerMode: false, // ok
-				centerPadding: 20, // ok
+				centerPadding: "0.2%", // ok
 				customizeDots: false, // ok
 				differentWidth: false, // dont want to make this
 				dots: true, // ok
@@ -78,7 +78,6 @@
 			_.sliderWrapper = $(element);
 			_.sliderItem = _.sliderWrapper.find('.sliderItem');
 			_.sliderTrack = null;
-			_.sliderTrackWidth = 0;
 			_.sliderTrackHeight = 0;
 			_.sliderHeight = 0;
 			_.totalSlides = _.sliderItem.length;
@@ -182,22 +181,17 @@
 				_.autoResponsive();
 
 				if ( _.defaults.loop === false ) {
-					if ( _.curLeft < -_.curEachSlideWidth*(_.totalSlides-_.checkSlidesToShow-1) ) {
-						
+					if ( _.curLeft < -_.curEachSlideWidth*(_.totalSlides-_.checkSlidesToShow-1) ) {						
 						_.curLeft = -_.curEachSlideWidth*Math.ceil(_.totalSlides/_.checkSlidesToShow);
-
-						_.sliderTrack.css({
-							"left" : _.curLeft
-						});
 					}
 					if ( _.curLeft < _.maxSliderTrackLeft ) {
 						_.sliderWrapper.find('.sliderItem').removeClass('current');
 						_.curSlideNum = Math.round(_.maxSliderTrackLeft/_.curEachSlideWidth)-1;
-						_.curLeft = -_.curEachSlideWidth*_.curSlideNum;
-						_.sliderTrack.css({
-							"left" : _.curLeft
-						});
+						_.curLeft = -_.curEachSlideWidth*_.curSlideNum;						
 					}
+					_.sliderTrack.css({
+						"left" : _.curLeft
+					});
 				}
 
 				_.appendClones();
@@ -209,7 +203,6 @@
 				}
 
 				_.resetfSliderWrapperMaxWidth();
-
 				_.updateSliderDimension();
 
 				if ( _.defaults.loop === false ) {				
@@ -234,7 +227,7 @@
 		var _ = this;
 		_.curSlide = _.sliderWrapper.find('.sliderItem.current');
 
-		if ( _.defaults.centerMode && _.defaults.centerPadding > 0 ) {
+		if ( _.defaults.centerMode && _.defaults.centerPadding.length > 0 ) {
 			_.curSlide.animate({
 				"padding" : 0
 			}, 200).siblings('.sliderItem').animate({
@@ -315,7 +308,6 @@
 
 		for ( var _i = 0; _i < _.totalSlidesWClones; _i++ ) {
 			_slidesHeightArray.push( _.sliderItem.eq(_i).outerHeight() );
-			_.sliderTrackWidth += _.sliderItem.eq(_i).outerWidth(true);
 		}
 		if ( _.defaults.vertical === false && _.defaults.dynamicHeight === false ) {
 			_.sliderHeight = _maxSlideHeight = Math.max.apply(null, _slidesHeightArray);
