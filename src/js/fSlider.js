@@ -741,7 +741,7 @@
 			}
 		});		
 
-		_.sliderTrack.on('mousedown touchstart', function(e) {
+		_.sliderWrapper.on('mousedown touchstart', function(e) {
 			_.curLeft = parseInt(_.sliderTrack.css("left"));
 			var _thisLeft = parseInt(_.sliderTrack.css("left"));
 
@@ -758,7 +758,7 @@
 				startPosX = touch.pageX;
 				startPosY = touch.pageY;
 
-				_.sliderTrack.on('mousemove touchmove', function(e) {
+				_.sliderWrapper.on('mousemove touchmove', function(e) {
 					if (e.type != 'mousemove') {
 						touch = e.originalEvent.targetTouches[0] || e.originalEvent.changedTouches[0];
 					} else {
@@ -785,14 +785,14 @@
 									 ( touch.pageX < _.sliderWrapper.parent('.fSliderWrapper').offset().left + _.sliderWrapper.parent('.fSliderWrapper').outerWidth()/24 ) ||							
 									 ( touch.pageY < _.sliderWrapper.parent('.fSliderWrapper').offset().top + _.sliderWrapper.outerHeight()/12 ) ||
 									 ( touch.pageY > _.sliderWrapper.parent('.fSliderWrapper').offset().top + _.sliderWrapper.outerHeight()*11/12 ) ) {
-									_.sliderTrack.trigger('mouseup');
+									_.sliderWrapper.trigger('mouseup');
 								}
 							} else {
 								if ( ( touch.pageX > _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()*23/24 ) ||
 									 ( touch.pageX < _.sliderWrapper.offset().left + _.sliderWrapper.outerWidth()/24 ) ||							
 									 ( touch.pageY < _.sliderWrapper.offset().top + _.sliderWrapper.outerHeight()/12 ) ||
 									 ( touch.pageY > _.sliderWrapper.offset().top + _.sliderWrapper.outerHeight()*11/12 ) ) {
-									_.sliderTrack.trigger('mouseup');
+									_.sliderWrapper.trigger('mouseup');
 								}
 							}
 						}
@@ -800,15 +800,15 @@
 					}
 					
 				});
-				_.sliderTrack.on('mouseup touchend', function(e) {
+				_.sliderWrapper.on('mouseup touchend', function(e) {
 					_thisLeft = parseInt(_.sliderTrack.css("left"));
 					touch = e;
 
 					if (e.type != 'mouseup') {
 						touch = e.originalEvent.targetTouches[0] || e.originalEvent.changedTouches[0];
 					}
-					_.sliderTrack.off('mousemove touchmove');
-					_.sliderTrack.off('mouseup touchend');
+					_.sliderWrapper.off('mousemove touchmove');
+					_.sliderWrapper.off('mouseup touchend');
 
 					// detect direction
 					if ( _.defaults.fade ) {
