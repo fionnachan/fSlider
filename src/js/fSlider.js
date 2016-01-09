@@ -901,8 +901,8 @@
 
 		function resetDragFunc() {
 			_.isAnimating = false;
-			_.sliderTrack.off('mousemove touchmove');
-			_.sliderTrack.off('mouseup touchend');
+			_.sliderWrapper.off('mousemove touchmove');
+			_.sliderWrapper.off('mouseup touchend');
 		}
 
 	}
@@ -1057,7 +1057,7 @@
 			_.arrowNext.off('click').remove();
 		}
 		if ( _.defaults.drag ) {
-			_.sliderTrack.off('mousedown touchstart');
+			_.sliderWrapper.off('mousedown touchstart');
 		}
 		_.sliderWrapper.find('.fClone').remove();
 		_.sliderWrapper.unwrap().removeClass('fSlider').attr('style', "");
