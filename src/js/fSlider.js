@@ -1,4 +1,4 @@
-// fSlider - v 0.8.5 - 2015-12-30
+// fSlider - v 0.8.5 - 2016-1-15
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -912,11 +912,11 @@
 		if ( _.defaults.dynamicHeight ) {
 			_.sliderWrapper.animate({
 				"height" : _.sliderWrapper.find('.sliderItem').eq(_.newCurIdx).outerHeight()
-			}, 100);
+			}, _.defaults.speed);
 			if ( _.defaults.fade ) {
 				_.sliderWrapper.find('.fSliderTrack').animate({
 					"height" : _.sliderWrapper.find('.sliderItem').eq(_.newCurIdx).outerHeight()
-				}, 100);
+				}, _.defaults.speed);
 			}
 		}
 	}
@@ -974,9 +974,9 @@
 					}
 				}
 			}		
+			_.sliderWrapper.find('.sliderItem').eq(_.newCurIdx).addClass('current');
 			_.updateSliderHeight();
 			_.afterChangeSlide();
-			_.sliderWrapper.find('.sliderItem').eq(_.newCurIdx).addClass('current');
 			_.centerPadding();
 		}
 		
