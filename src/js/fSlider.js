@@ -1,4 +1,4 @@
-// fSlider - v 0.8.5 - 2016-1-15
+// fSlider - v 0.8.6 - 2016-1-18
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -139,6 +139,8 @@
 		_.arrowNext = _.sliderWrapper.find('.'+_.defaults.arrowNextClass);
 		if ( _.defaults.loop === false && _.defaults.fade === false && _.defaults.defaultCurrentSlide === 0 ) {
 			_.arrowPrev.addClass('disabled');
+		} else if (  _.defaults.loop === false && _.defaults.fade === false && _.defaults.defaultCurrentSlide === _.totalSlides-1 ) {
+			_.arrowNext.addClass('disabled');
 		}
 		if ( _.defaults.showArrows === false ) {
 			_.arrowPrev.hide();
@@ -150,6 +152,10 @@
 		_.autoplay();
 
 		$(window).on('resize', function(){
+			if ( _.defaults.autoplay ) {
+				clearTimeout( _.autoplayTimer );
+			}
+
 			_.autoResponsive();
 
 			_.curSlide = _.sliderWrapper.find('.sliderItem.current');
@@ -177,6 +183,10 @@
 		$(window).on('responsive', function(){
 			if ( _.defaults.responsive ) {
 				_.curEachSlideWidth = Math.floor(_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
+
+				if ( _.defaults.autoplay ) {
+					clearTimeout( _.autoplayTimer );
+				}
 
 				_.autoResponsive();
 
@@ -357,7 +367,6 @@
 			} else {
 				_.sliderWrapper.css({ "height" : 10, "width" : _.curSlide.outerWidth() });
 			}
-			_.isInit = false;
 		}
 		
 		if ( _.defaults.vertical ) {
@@ -403,7 +412,7 @@
 			}
 		}
 
-		if ( _.defaults.vertical ) {			
+		if ( _.defaults.vertical ) {
 			_.sliderTrack.css({
 				"width": _.curEachSlideWidth
 			});
@@ -415,7 +424,13 @@
 				});
 				_.setCenterModeDimension( _sliderHeight );
 			}
-		}	
+		}
+
+		if ( _.isInit == false) {
+			_.autoplay();
+		} else {			
+			_.isInit = false;
+		}
 
 	}
 
@@ -758,7 +773,7 @@
 				startPosX = touch.pageX;
 				startPosY = touch.pageY;
 
-				_.sliderWrapper.on('mousemove touchmove', function(e) {
+				$(document).on('mousemove touchmove', function(e) {
 					if (e.type != 'mousemove') {
 						touch = e.originalEvent.targetTouches[0] || e.originalEvent.changedTouches[0];
 					} else {
@@ -779,7 +794,7 @@
 							});
 						}
 						_.curSlideNum = Math.ceil(-parseInt(_.sliderTrack.css("left")) / _.curEachSlideWidth);
-						if ( e.type == 'mousemove' ) {
+						/*if ( e.type == 'mousemove' ) {
 							if ( _.defaults.centerMode ) {
 								if ( ( touch.pageX > _.sliderWrapper.parent('.fSliderWrapper').offset().left + _.sliderWrapper.parent('.fSliderWrapper').outerWidth()*23/24 ) ||
 									 ( touch.pageX < _.sliderWrapper.parent('.fSliderWrapper').offset().left + _.sliderWrapper.parent('.fSliderWrapper').outerWidth()/24 ) ||							
@@ -795,20 +810,20 @@
 									_.sliderWrapper.trigger('mouseup');
 								}
 							}
-						}
+						}*/
 						_.isAnimating = false;
 					}
 					
 				});
-				_.sliderWrapper.on('mouseup touchend', function(e) {
+				$(document).on('mouseup touchend', function(e) {
 					_thisLeft = parseInt(_.sliderTrack.css("left"));
 					touch = e;
 
 					if (e.type != 'mouseup') {
 						touch = e.originalEvent.targetTouches[0] || e.originalEvent.changedTouches[0];
 					}
-					_.sliderWrapper.off('mousemove touchmove');
-					_.sliderWrapper.off('mouseup touchend');
+					$(document).off('mousemove touchmove');
+					$(document).off('mouseup touchend');
 
 					// detect direction
 					if ( _.defaults.fade ) {
@@ -901,8 +916,8 @@
 
 		function resetDragFunc() {
 			_.isAnimating = false;
-			_.sliderWrapper.off('mousemove touchmove');
-			_.sliderWrapper.off('mouseup touchend');
+			$(document).off('mousemove touchmove');
+			$(document).off('mouseup touchend');
 		}
 
 	}
@@ -1043,7 +1058,6 @@
 
 	fSlider.prototype.destroy = function() {
 		var _ = this;
-
 		if ( _.defaults.autoplay ) {
 			clearTimeout( _.autoplayTimer );
 		}
@@ -1051,17 +1065,49 @@
 		if ( _.dots ) {
 			_.dots.off('click');
 			_.sliderWrapper.next('.dotsWrapper').remove();
-		}
-		if ( _.defaults.showArrows ) {				
-			_.arrowPrev.off('click').remove();
-			_.arrowNext.off('click').remove();
-		}
+		}		
+		_.arrowPrev.off('click').remove();
+		_.arrowNext.off('click').remove();
 		if ( _.defaults.drag ) {
 			_.sliderWrapper.off('mousedown touchstart');
 		}
+		_.defaults.centerMode = false;
 		_.sliderWrapper.find('.fClone').remove();
-		_.sliderWrapper.unwrap().removeClass('fSlider').attr('style', "");
-		_.sliderWrapper.find('.sliderItem').removeClass('current').unwrap();
+		_.sliderWrapper.removeClass('fSlider').attr('style', '').unwrap();
+		_.sliderWrapper.find('.sliderItem').attr('style', '').removeClass('current').unwrap();
+
+		_.defaults = {
+			arrowPrevClass: "fArrow-prev", // ok
+			arrowNextClass: "fArrow-next", // ok
+			autoplay: false, // ok
+			autoplaySpeed: 3000, // ok
+			callbacks: {
+				afterchangeSlide: function(){}
+			}, // ok
+			centerMode: false, // ok
+			centerPadding: "0.2%", // ok
+			customizeDots: false, // ok
+			differentWidth: false, // dont want to make this
+			dots: true, // ok
+			drag: true, // ok
+			dynamicHeight: false, // ok
+			easing: "easeOutExpo", // ok
+			fade: false, // ok
+			defaultCurrentSlide: 0, // ok
+			loop: true, // ok
+			responsiveBreakPoint: [0, 960], // ok
+			numOfNextSlides: [1, 1], // ok
+			pauseOnHover: true, // ok
+			progressBar: false, // pending
+			responsive: true, // ok
+			showArrows: true, // ok
+			showSiblingsHowMuch: 0.5, // ok
+			slidesToShow: [1, 1], // ok
+			speed: 500, // ok
+			vertical: false, // pending
+			vTop: false, // ok
+			vBottom: false // ok
+		}
 
 	}
 
