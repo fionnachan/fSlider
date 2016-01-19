@@ -375,10 +375,14 @@
 				"height" : _sliderHeight
 			});
 		} else {
-			_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
+			_sliderHeight = _.sliderTrack.outerHeight();
+			//_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
 			_.sliderWrapper.css({
 				"height" : _sliderHeight,
 				"width" : "100%"
+			});
+			_.sliderWrapper.parent('.fSliderWrapper').css({
+				"height" : _sliderHeight
 			});
 			_.setCenterModeDimension( _sliderHeight );
 		}
