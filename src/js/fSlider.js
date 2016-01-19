@@ -760,8 +760,8 @@
 			_.curLeft = parseInt(_.sliderTrack.css("left"));
 			var _thisLeft = parseInt(_.sliderTrack.css("left"));
 
-			if ( _.isAnimating === false ) {				
-				e.preventDefault();
+			if ( _.isAnimating === false ) {
+				//e.preventDefault();
 				resetDragFunc();
 				clearTimeout(_.autoplayTimer);
 
@@ -853,7 +853,7 @@
 							var _stayAtCur = true;
 							if ( _thisLeft > _.curLeft ) { // prev
 								var dir = 'prev';
-								if ( _thisLeft - _.curLeft > _.curEachSlideWidth*_.checkSlidesToShow/4 ) {
+								if ( _thisLeft - _.curLeft > _.curEachSlideWidth*_.numOfNextSlides/4 ) {
 									if ( _.defaults.loop ) {
 										if ( _.curLeft === 0 ) {
 											_newLeft = -_.sliderTrackWidthWClones + _.curEachSlideWidth*_.numOfNextSlides*2;
@@ -872,7 +872,7 @@
 								}
 							} else { // next
 								var dir = 'next';
-								if ( startPosX - touch.pageX > _.curEachSlideWidth*_.checkSlidesToShow/4 ) {
+								if ( startPosX - touch.pageX > _.curEachSlideWidth*_.numOfNextSlides/4 ) {
 									if (  ! ( _.defaults.loop === false && _thisLeft <= _.maxSliderTrackLeft) ) {
 										_newLeft = _.curLeft-_.curEachSlideWidth*_.numOfNextSlides;
 									}
