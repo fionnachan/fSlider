@@ -599,6 +599,9 @@
 			});
 		}
 		_.arrowPrev.on('click',function() {
+			if ( _.defaults.autoplay ) {
+				clearTimeout( _.autoplayTimer );
+			}
 			if ( _.isAnimating === false && ! _.arrowPrev.hasClass('disabled') ) {
 				_.isAnimating = true;
 				if ( _.defaults.fade === false ) {
@@ -684,6 +687,9 @@
 		});
 
 		_.arrowNext.on('click',function() {
+			if ( _.defaults.autoplay ) {
+				clearTimeout( _.autoplayTimer );
+			}
 			if ( _.isAnimating === false && !_.arrowNext.hasClass('disabled') ) {
 				_.isAnimating = true;
 				if ( _.defaults.fade === false ) {
