@@ -33,7 +33,9 @@
 				arrowNextClass: "fArrow-next", // ok
 				autoplay: false, // ok
 				autoplaySpeed: 3000, // ok
+				adaptiveHeightOnResize: false, // ok
 				callbacks: {
+					noLoopAfterEndSlideClickArrow: function(){},
 					afterchangeSlide: function(){}
 				}, // ok
 				centerMode: false, // ok
@@ -93,6 +95,7 @@
 			_.maxSliderTrackLeft = 0;
 			_.newCurIdx = 0;
 			_.afterChangeSlide = _.defaults.callbacks.afterchangeSlide;
+			_.forceArrowClick = _.defaults.callbacks.noLoopAfterEndSlideClickArrow;
 			_.slideDir = null;
 
 			_.init();
@@ -196,7 +199,9 @@
 					if ( _.curLeft < -_.curEachSlideWidth*(_.totalSlides-_.checkSlidesToShow-1) ) {						
 						_.curLeft = -_.curEachSlideWidth*Math.ceil(_.totalSlides/_.checkSlidesToShow);
 					}
-					if ( _.curLeft > _.maxSliderTrackLeft ) {
+					if ( _.curLeft < _.maxSliderTrackLeft && 
+						 _.curSlideNum == Math.round(-_.curLeft/_.totalSlides) ) { 
+						 // at a bit more than right most sliderItem
 						_.sliderWrapper.find('.sliderItem').removeClass('current');
 						_.curSlideNum = Math.round(_.maxSliderTrackLeft/_.curEachSlideWidth)-1;
 						_.curLeft = -_.curEachSlideWidth*_.curSlideNum;						
@@ -385,8 +390,12 @@
 		} else {
 			if ( _.isInit ) {
 				_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
-			} else {
+			}
+
+			if ( _.defaults.adaptiveHeightOnResize ) {
 				_sliderHeight = _.sliderWrapper.find('.fSliderTrack').outerHeight();
+			} else {
+				_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
 			}
 			_.sliderWrapper.css({
 				"height" : _sliderHeight,
@@ -746,6 +755,7 @@
 							}
 						});
 					} else if ( _.defaults.loop === false && _.curLeft <= _.maxSliderTrackLeft ) {
+						_.forceArrowClick();
 						_.isAnimating = false;
 					}
 
@@ -1097,34 +1107,34 @@
 		_.defaults = {
 			arrowPrevClass: "fArrow-prev", // ok
 			arrowNextClass: "fArrow-next", // ok
-			autoplay: false, // ok
-			autoplaySpeed: 3000, // ok
+			autoplay: null, // ok
+			autoplaySpeed: null, // ok
 			callbacks: {
 				afterchangeSlide: function(){}
 			}, // ok
-			centerMode: false, // ok
-			centerPadding: "0.2%", // ok
-			customizeDots: false, // ok
-			differentWidth: false, // dont want to make this
-			dots: true, // ok
-			drag: true, // ok
-			dynamicHeight: false, // ok
+			centerMode: null, // ok
+			centerPadding: null, // ok
+			customizeDots: null, // ok
+			differentWidth: null, // dont want to make this
+			dots: null, // ok
+			drag: null, // ok
+			dynamicHeight: null, // ok
 			easing: "easeOutExpo", // ok
-			fade: false, // ok
+			fade: null, // ok
 			defaultCurrentSlide: 0, // ok
-			loop: true, // ok
+			loop: null, // ok
 			responsiveBreakPoint: [0, 960], // ok
 			numOfNextSlides: [1, 1], // ok
-			pauseOnHover: true, // ok
-			progressBar: false, // pending
-			responsive: true, // ok
-			showArrows: true, // ok
+			pauseOnHover: null, // ok
+			progressBar: null, // pending
+			responsive: null, // ok
+			showArrows: null, // ok
 			showSiblingsHowMuch: 0.5, // ok
 			slidesToShow: [1, 1], // ok
 			speed: 500, // ok
-			vertical: false, // pending
-			vTop: false, // ok
-			vBottom: false // ok
+			vertical: null, // pending
+			vTop: null, // ok
+			vBottom: null // ok
 		}
 
 	}
