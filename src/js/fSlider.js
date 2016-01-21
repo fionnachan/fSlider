@@ -1,4 +1,4 @@
-// fSlider - v 0.8.6 - 2016-1-20
+// fSlider - v 0.8.6 - 2016-1-21
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -45,6 +45,8 @@
 				dots: true, // ok
 				drag: true, // ok
 				dynamicHeight: false, // ok
+				setHeight: false, // ok
+				widthHeightRatio: 0, // ok
 				easing: "easeOutExpo", // ok
 				fade: false, // ok
 				defaultCurrentSlide: 0, // ok
@@ -334,6 +336,7 @@
 		}
 		if ( _.defaults.vertical === false && _.defaults.dynamicHeight === false ) {
 			_.sliderHeight = _maxSlideHeight = Math.max.apply(null, _slidesHeightArray);
+			// this part may not be useful
 		} else {
 			_.sliderHeight = _.curSlide.outerHeight();
 			_.sliderWrapper.find('.sliderItem').addClass('vTop');
@@ -396,6 +399,9 @@
 				_sliderHeight = _.sliderWrapper.find('.fSliderTrack').outerHeight();
 			} else {
 				_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
+			}
+			if ( _.defaults.setHeight ) {
+				_sliderHeight = Math.floor(1/_.defaults.widthHeightRatio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
 			}
 			_.sliderWrapper.css({
 				"height" : _sliderHeight,
@@ -1108,17 +1114,21 @@
 			arrowPrevClass: "fArrow-prev", // ok
 			arrowNextClass: "fArrow-next", // ok
 			autoplay: null, // ok
-			autoplaySpeed: null, // ok
+			autoplaySpeed: 3000, // ok
+			adaptiveHeightOnResize: null, // ok
 			callbacks: {
+				noLoopAfterEndSlideClickArrow: function(){},
 				afterchangeSlide: function(){}
 			}, // ok
 			centerMode: null, // ok
-			centerPadding: null, // ok
+			centerPadding: "0.2%", // ok
 			customizeDots: null, // ok
 			differentWidth: null, // dont want to make this
 			dots: null, // ok
 			drag: null, // ok
 			dynamicHeight: null, // ok
+			setHeight: null, // ok
+			widthHeightRatio: 0, // ok
 			easing: "easeOutExpo", // ok
 			fade: null, // ok
 			defaultCurrentSlide: 0, // ok
