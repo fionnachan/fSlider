@@ -393,13 +393,13 @@
 		} else {
 			if ( _.isInit ) {
 				_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
-			}
-
-			if ( _.defaults.adaptiveHeightOnResize ) {
-				_sliderHeight = _.sliderWrapper.find('.fSliderTrack').outerHeight();
 			} else {
-				_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
-			}
+				if ( _.defaults.adaptiveHeightOnResize ) {
+					_sliderHeight = _.sliderWrapper.find('.fSliderTrack').outerHeight();
+				} else {
+					_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
+				}
+			}			
 			if ( _.defaults.setHeight ) {
 				_sliderHeight = Math.floor(1/_.defaults.widthHeightRatio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
 			}
