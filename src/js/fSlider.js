@@ -35,6 +35,7 @@
 				autoplaySpeed: 3000, // ok
 				adaptiveHeightOnResize: false, // ok
 				callbacks: {
+					beforeGoToSlide: function(){},
 					noLoopAfterEndSlideClickArrow: function(){},
 					afterchangeSlide: function(){}
 				}, // ok
@@ -98,6 +99,7 @@
 			_.newCurIdx = 0;
 			_.afterChangeSlide = _.defaults.callbacks.afterchangeSlide;
 			_.forceArrowClick = _.defaults.callbacks.noLoopAfterEndSlideClickArrow;
+			_.beforeGoToSlide = _.defaults.callbacks.beforeGoToSlide;
 			_.slideDir = null;
 
 			_.init();
@@ -962,40 +964,58 @@
 		var _stayAtCur = true;
 		var _newLeft = 0;
 
+		if ( _.defaults.autoplay ) {
+			clearTimeout( _.autoplayTimer );
+		}
+
+		_.newCurIdx = newIdx + _.clonesEachSide;
+
 		_.isAnimating = true;
 
 		_.curSlide = _.sliderWrapper.find('.sliderItem.current');
-		_.sliderWrapper.find('.sliderItem').removeClass('current');
-
-		_.newCurIdx = ( _.defaults.loop ) ? newIdx + _.clonesEachSide : newIdx;
-		_newLeft = -_.newCurIdx*_.curEachSlideWidth;
-
-		_dir = ( _.curSlide.index() > _.newCurIdx ) ? "prev" : "next" ;
 
 		_stayAtCur = ( _.curSlide.index() === _.newCurIdx ) ? true : false;
 
-		_.sliderTrack.stop(true,false).animate({
-			'left': _newLeft
-		}, _.defaults.speed, _.defaults.easing, function() {
-			_.animateEndFn( _dir, _stayAtCur );
-			_.curSlideNum = Math.ceil(-parseInt(_.sliderTrack.css("left")) / _.curEachSlideWidth);
-			if ( _stayAtCur === false ) {
-				if ( _dir == 'prev' ) {
-					_.arrowNext.removeClass('disabled');
-					_.updateCurDot( _dir, 0);
-					if ( _.defaults.loop === false && _.curLeft+_.curEachSlideWidth*_.numOfNextSlides >= 0 ) {
-						_.arrowPrev.addClass('disabled');
-					}
-				} else {
-					_.arrowPrev.removeClass('disabled');
-					_.updateCurDot( _dir, (_.totalSlidesWClones-_.clonesEachSide*2)/_.numOfNextSlides-1);
-					if ( _.defaults.loop === false && Math.abs(_newLeft - _.maxSliderTrackLeft) < 3 ) {
-						_.arrowNext.addClass('disabled');
+		if ( _stayAtCur === false ) {
+			_.sliderWrapper.find('.sliderItem').removeClass('current');
+			_newLeft = -_.newCurIdx*_.curEachSlideWidth;
+			_.beforeGoToSlide();
+
+			_dir = 'goTo' ;
+
+
+			_.sliderTrack.stop(true,false).animate({
+				'left': _newLeft
+			}, _.defaults.speed, _.defaults.easing, function() {
+				_.animateEndFn( _dir, _stayAtCur );
+				_.curSlideNum = Math.ceil(-parseInt(_.sliderTrack.css("left")) / _.curEachSlideWidth);
+				if ( _stayAtCur === false ) {
+					if ( _dir == 'prev' ) {
+						_.arrowNext.removeClass('disabled');
+						_.updateCurDot( _dir, 0);
+						if ( _.defaults.loop === false && _.curLeft+_.curEachSlideWidth*_.numOfNextSlides >= 0 ) {
+							_.arrowPrev.addClass('disabled');
+						}
+					} else {
+						_.arrowPrev.removeClass('disabled');
+						_.updateCurDot( _dir, (_.totalSlidesWClones-_.clonesEachSide*2)/_.numOfNextSlides-1);
+						if ( _.defaults.loop === false && Math.abs(_newLeft - _.maxSliderTrackLeft) < 3 ) {
+							_.arrowNext.addClass('disabled');
+						}
 					}
 				}
-			}
-			_.autoplay();
-		});
+				_.isAnimating = false;
+				_.autoplay();
+			});
+
+
+		} else {
+			_.afterChangeSlide();
+			_.isAnimating = false;
+		}
+
+
+		
 	}
 
 	fSlider.prototype.updateSliderHeight = function() {
@@ -1046,7 +1066,7 @@
 					}
 				
 				}
-			} else {
+			} else if ( dir === 'next' ) {
 				_.slideDir = 'next';
 				_.newCurIdx = _.curSlide.index() + _.numOfNextSlides;
 				_.sliderTrackWidthWClones = _.sliderWrapper.find('.fSliderTrack').outerWidth(true);
@@ -1064,7 +1084,9 @@
 						_.newCurIdx = ( _.defaults.loop ) ? _.clonesEachSide : _.newCurIdx;
 					}
 				}
-			}		
+			} else if ( dir === 'goTo' ) {
+
+			}
 			_.sliderWrapper.find('.sliderItem').eq(_.newCurIdx).addClass('current');
 			_.updateSliderHeight();
 			_.afterChangeSlide();
@@ -1159,6 +1181,7 @@
 			autoplaySpeed: 3000, // ok
 			adaptiveHeightOnResize: null, // ok
 			callbacks: {
+				beforeGoToSlide: function(){},
 				noLoopAfterEndSlideClickArrow: function(){},
 				afterchangeSlide: function(){}
 			}, // ok
