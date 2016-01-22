@@ -119,6 +119,16 @@
 		_.sliderTrack = _.sliderWrapper.find('.fSliderTrack');
 
 		_.autoResponsive();
+
+		if ( typeof _.defaults.callbacks.afterchangeSlide == "undefined" ) {
+			_.afterChangeSlide = function(){};
+		}
+		if ( typeof _.defaults.callbacks.noLoopAfterEndSlideClickArrow == "undefined" ) {
+			_.forceArrowClick = function(){};
+		}
+		if ( typeof _.defaults.callbacks.beforeGoToSlide == "undefined" ) {
+			_.beforeGoToSlide = function(){};
+		}
 				
 		if ( _.defaults.centerMode ) {
 			_.sliderWrapper.parent('.fSliderWrapper').addClass('centerMode');
