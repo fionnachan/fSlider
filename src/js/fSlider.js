@@ -1,4 +1,4 @@
-// fSlider - v 0.8.6 - 2016-1-21
+// fSlider - v 0.8.6 - 2016-1-22
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -954,6 +954,48 @@
 			$(document).off('mouseup touchend');
 		}
 
+	}
+
+	fSlider.prototype.goToSlide = function( newIdx ) {
+		var _ = this;
+		var _dir = "prev";
+		var _stayAtCur = true;
+		var _newLeft = 0;
+
+		_.isAnimating = true;
+
+		_.curSlide = _.sliderWrapper.find('.sliderItem.current');
+		_.sliderWrapper.find('.sliderItem').removeClass('current');
+
+		_.newCurIdx = ( _.defaults.loop ) ? newIdx + _.clonesEachSide : newIdx;
+		_newLeft = -_.newCurIdx*_.curEachSlideWidth;
+
+		_dir = ( _.curSlide.index() > _.newCurIdx ) ? "prev" : "next" ;
+
+		_stayAtCur = ( _.curSlide.index() === _.newCurIdx ) ? true : false;
+
+		_.sliderTrack.stop(true,false).animate({
+			'left': _newLeft
+		}, _.defaults.speed, _.defaults.easing, function() {
+			_.animateEndFn( _dir, _stayAtCur );
+			_.curSlideNum = Math.ceil(-parseInt(_.sliderTrack.css("left")) / _.curEachSlideWidth);
+			if ( _stayAtCur === false ) {
+				if ( _dir == 'prev' ) {
+					_.arrowNext.removeClass('disabled');
+					_.updateCurDot( _dir, 0);
+					if ( _.defaults.loop === false && _.curLeft+_.curEachSlideWidth*_.numOfNextSlides >= 0 ) {
+						_.arrowPrev.addClass('disabled');
+					}
+				} else {
+					_.arrowPrev.removeClass('disabled');
+					_.updateCurDot( _dir, (_.totalSlidesWClones-_.clonesEachSide*2)/_.numOfNextSlides-1);
+					if ( _.defaults.loop === false && Math.abs(_newLeft - _.maxSliderTrackLeft) < 3 ) {
+						_.arrowNext.addClass('disabled');
+					}
+				}
+			}
+			_.autoplay();
+		});
 	}
 
 	fSlider.prototype.updateSliderHeight = function() {
