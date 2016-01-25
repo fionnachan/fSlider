@@ -1,4 +1,4 @@
-// fSlider - v 0.8.6 - 2016-1-25
+// fSlider - v 0.8.6 - 2016-1-22
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -102,30 +102,12 @@
 			_.beforeGoToSlide = _.defaults.callbacks.beforeGoToSlide;
 			_.slideDir = null;
 
-			_.checkLoaded();
+			_.init();
 
 		}
 		
 		return fSlider;
 	}());
-
-	fSlider.prototype.checkLoaded = function() {
-		var _ = this;
-		// check images loaded
-		var _count = _.sliderWrapper.find('img').length;
-		if(_count <= 0) {
-			_.init();
-		} else {
-			_.sliderWrapper.find('img').each(function() {
-				$("<img/>").load(function() {
-					if( !--_count ) {
-						// callback function here
-						_.init();
-					}
-				}).attr("src", $(this).attr('src'));
-			});
-		}
-	}
 
 	fSlider.prototype.init = function() {
 		var _ = this;
@@ -409,10 +391,22 @@
 		if ( _.isInit ) {
 			if ( _.defaults.vertical === false ) {
 				_.sliderWrapper.css({ "height" : 10, "width" : "100%" });
+		
+				for ( var _j = 0; _j < _.sliderWrapper.find('.sliderItem').length; _j++ ) {
+					if ( _.defaults.vertical === false ) {
+						_.sliderWrapper.find('.sliderItem').eq(_j).css({
+							"width" : Math.floor(_.sliderWrapper.outerWidth()/_.checkSlidesToShow)
+						});
+					}
+				}
+				_.sliderHeight = _.curSlide.outerHeight();
+
+				_.slideHWratio = _.sliderHeight/_.curSlide.outerWidth(true);
 			} else {
 				_.sliderWrapper.css({ "height" : 10, "width" : _.curSlide.outerWidth() });
 			}
 		}
+
 		
 		if ( _.defaults.vertical ) {
 			_sliderHeight = Math.floor(_.slideHWratio*_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
