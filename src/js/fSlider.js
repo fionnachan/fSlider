@@ -300,7 +300,7 @@
 		_.curBPIdx = _.defaults.responsiveBreakPoint.length-1;
 		_.checkSlidesToShow = _.defaults.slidesToShow[_.curBPIdx];
 		_.numOfNextSlides = _.defaults.numOfNextSlides[_.curBPIdx];
-		_.setHeight = ( typeof _.defaults.numOfNextSlides == "number" ) ? _.defaults.setHeight : _.defaults.setHeight[_.curBPIdx];
+		_.setHeight = ( typeof _.defaults.setHeight == "number" ) ? _.defaults.setHeight : _.defaults.setHeight[_.curBPIdx];
 		if ( _.defaults.responsive ){
 			for ( var _i = _.curBPIdx-1; _i >= 0; _i-- ) {
 				if ( $(window).innerWidth() >= _.defaults.responsiveBreakPoint[_i] &&
@@ -308,14 +308,14 @@
 					_.curBPIdx = _i;
 					_.checkSlidesToShow = _.defaults.slidesToShow[_.curBPIdx];
 					_.numOfNextSlides = _.defaults.numOfNextSlides[_.curBPIdx];
-					_.setHeight = ( typeof _.defaults.numOfNextSlides == "number" ) ? _.defaults.setHeight : _.defaults.setHeight[_.curBPIdx];
+					_.setHeight = ( typeof _.defaults.setHeight == "number" ) ? _.defaults.setHeight : _.defaults.setHeight[_.curBPIdx];
 				}
 			}
 		} else {
 			_.curBPIdx = 0;
 			_.checkSlidesToShow = ( typeof _.defaults.slidesToShow == "number" ) ? _.defaults.slidesToShow : _.defaults.slidesToShow[_.curBPIdx] ;
 			_.numOfNextSlides = ( typeof _.defaults.numOfNextSlides == "number" ) ? _.defaults.numOfNextSlides : _.defaults.numOfNextSlides[_.curBPIdx] ;
-			_.setHeight = ( typeof _.defaults.numOfNextSlides == "number" ) ? _.defaults.setHeight : _.defaults.setHeight[_.curBPIdx];
+			_.setHeight = ( typeof _.defaults.setHeight == "number" ) ? _.defaults.setHeight : _.defaults.setHeight[_.curBPIdx];
 		}
 	}
 
@@ -1091,7 +1091,7 @@
 			dots: null, // ok
 			drag: null, // ok
 			dynamicHeight: null, // ok
-			setHeight: null, // ok
+			setHeight: false, // ok
 			widthHeightRatio: 0, // ok
 			easing: "easeOutExpo", // ok
 			defaultCurrentSlide: 0, // ok
