@@ -4,6 +4,7 @@ $dot-active-color: darken($dot-color, 30);
 $dot-diameter: 10px;
 
 .fSliderWrapper {
+	position: relative;
 	margin: 0 auto;
 	&.centerMode {
 		overflow: hidden;

@@ -1,4 +1,5 @@
 .fSliderWrapper {
+  position: relative;
   margin: 0 auto; }
   .fSliderWrapper.centerMode {
     overflow: hidden; }
