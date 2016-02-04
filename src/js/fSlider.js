@@ -1,4 +1,4 @@
-// fSlider - v 0.8.6 - 2016-1-29
+// fSlider - v 0.8.6 - 2016-2-2
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -114,15 +114,15 @@
 			_.init();
 		} else {
 			_.sliderWrapper.find('img').each(function() {
-				$(this).on('error',function(){
-					$(this).attr("src", "/images/common/error.png");
-				}).on('load',function() {
-					if( --_count === 0 ) {
+				$('<img/>').load(function() {
+					if( !--_count ) {
+						// callback function here
 						_.init();
 					}
 				}).attr("src", $(this).attr('src'));
 			});
 		}
+
 	}
 
 	fSlider.prototype.init = function() {
@@ -158,6 +158,10 @@
 			_.clonesEachSide = 0;
 		}
 
+		if ( _.totalSlides <= 1 ) {
+			_.defaults.drag = false;
+		}
+
 		_.appendClones();
 
 		_.totalSlidesWClones = _.totalSlides + _.clonesEachSide*2;
@@ -173,6 +177,10 @@
 		}
 		if (  _.defaults.loop === false && _.defaults.defaultCurrentSlide === _.totalSlides-1 || 
 			_.defaults.loop === false && _.checkSlidesToShow >= _.totalSlides ) {
+			_.arrowNext.addClass('disabled');
+		}
+		if (  _.defaults.loop && _.totalSlides === 1 ) {
+			_.arrowPrev.addClass('disabled');
 			_.arrowNext.addClass('disabled');
 		}
 		if ( _.defaults.showArrows === false ) {
