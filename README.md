@@ -2,6 +2,8 @@
 
 [Slider Demo] (http://fionnachan.github.io)
 
+## if responsive is set true, responsive.js is recommended to be included, otherwise please include $('window').trigger('responsive') somehow.
+
 <pre>sliderName = $('.multi4Slider').fSlider({
 	arrowPrevClass: 'fArrow-prev', // provided for easy styling of arrows
 	arrowNextClass: 'fArrow-next', // provided for easy styling of arrows
@@ -10,9 +12,10 @@
 	adaptiveHeightOnResize: false,
 	loop: false,
 	callbacks: {
-	  noLoopAfterEndSlideClickArrow: function(){},
-	  afterchangeSlide: function(){}
-	}, // can pass a function
+		beforeGoToSlide: function(){},
+		noLoopAfterEndSlideClickArrow: function(){},
+		afterchangeSlide: function(){}
+	}, // can pass functions
 	customizeDots: false, // can use thumbnails	
 	centerMode: false, // slidesToShow should always be 1 if centerMode is set true
 	centerPadding: '0.2%', // center mode padding applied to current slide, pass in any style among '20%', '40' & '40px'
@@ -24,16 +27,13 @@
 	widthHeightRatio: 0, // if setHeight is set true, you must provide this value
 	defaultCurrentSlide: 0, // start from 0
 	easing: 'easeOutExpo', // pass any jQuery easing
-	fade: false, // only display 1 slide	
 	numOfNextSlides: [1, 1], // for responsive, please pass an array, for non-responsive, pass either integer or array 
 	pauseOnHover: true,
 	responsiveBreakPoint: [0, 960], // must include 0
 	responsive: true,
 	showArrows: true,
 	slidesToShow: [1, 1], // for responsive, please pass an array, for non-responsive, pass either integer or array 
-	speed: 500, // in ms
-	vTop: false, // for fixed height, if this is not set, default = vertical-align: middle
-	vBottom: false, // for fixed height, if this is not set, default = vertical-align: middle
+	speed: 500 // in ms
 });
 
 sliderName.fSlider('destroy'); or $('.multi4Slider').fSlider('destroy');
