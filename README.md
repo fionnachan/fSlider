@@ -2,7 +2,7 @@
 
 [Slider Demo] (http://fionnachan.github.io)
 
-## if responsive is set true, responsive.js is recommended to be included, otherwise please include $('window').trigger('responsive') somehow.
+##### if responsive is set true, responsive.js is recommended to be included, otherwise please include $('window').trigger('responsive') somehow.
 
 <pre>sliderName = $('.multi4Slider').fSlider({
 	arrowPrevClass: 'fArrow-prev', // provided for easy styling of arrows
