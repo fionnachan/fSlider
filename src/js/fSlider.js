@@ -96,6 +96,7 @@
 			_.beforeGoToSlide = _.defaults.callbacks.beforeGoToSlide;
 			_.slideDir = null;
 			_.setHeight = null;
+			_.isDragging = false;
 
 			_.checkLoaded();
 
@@ -440,8 +441,9 @@
 			}
 
 			if ( _.totalSlides < _.checkSlidesToShow ) {
-				_.curLeft = 0;
+				_.curLeft = _.maxSliderTrackLeft = 0;
 			} 
+
 		}
 		
 		_.sliderTrack.css({
@@ -718,7 +720,14 @@
 				}
 
 			}
-		});	
+		});
+
+		_.sliderWrapper.find('a').on('click',function(){
+			if ( _.isDragging ) {
+				e.preventDefault();
+			}
+			_.isDragging = false;
+		});
 
 		if ( _.defaults.drag ) {
 			_.touchEvent();
@@ -772,6 +781,7 @@
 					}
 
 					// slider position
+					_.isDragging = true;
 					_.isAnimating = true;
 		  	  		e.preventDefault();
 					if ( (_.defaults.loop === false && _.curSlideNum === 0) ||
