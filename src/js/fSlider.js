@@ -433,7 +433,7 @@
 		}
 
 		if ( _.defaults.loop === false ) {
-			_.maxSliderTrackLeft = -_.curEachSlideWidth*(_.totalSlides-_.checkSlidesToShow)+5;
+			_.maxSliderTrackLeft = -_.curEachSlideWidth*(_.totalSlides-_.checkSlidesToShow)-5;
 			// 5px buffer for css calculation
 
 			if ( _.curLeft < _.maxSliderTrackLeft ) {
@@ -959,7 +959,7 @@
 					if ( _.defaults.loop === false && _newLeft >= 0 ) {
 						_.arrowPrev.addClass('disabled');
 					}
-					if ( _.defaults.loop === false && Math.abs(_newLeft - _.maxSliderTrackLeft) < 3 ) {
+					if ( _.defaults.loop === false && Math.abs(_newLeft - _.maxSliderTrackLeft) < 8 ) {
 						_.arrowNext.addClass('disabled');
 					}
 				}
