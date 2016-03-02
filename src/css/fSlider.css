@@ -10,42 +10,6 @@
     width: 0;
     overflow: hidden;
     margin: 0 auto; }
-    .fSliderWrapper .fSlider a[class|="fArrow"] {
-      position: absolute;
-      display: block;
-      top: 50%;
-      margin-top: -24px;
-      width: 0;
-      height: 0;
-      border-top: 24px solid transparent;
-      border-bottom: 24px solid transparent; }
-      .fSliderWrapper .fSlider a[class|="fArrow"]:after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: -22px;
-        border-top: 22px solid transparent;
-        border-bottom: 22px solid transparent; }
-    .fSliderWrapper .fSlider .fArrow-prev {
-      left: 0;
-      border-right: 24px solid #000000; }
-      .fSliderWrapper .fSlider .fArrow-prev:after {
-        left: 2px;
-        border-right: 22px solid #ffcc00; }
-      .fSliderWrapper .fSlider .fArrow-prev.disabled {
-        border-right: 22px solid transparent; }
-        .fSliderWrapper .fSlider .fArrow-prev.disabled:after {
-          border-right: 22px solid #aaaaaa; }
-    .fSliderWrapper .fSlider .fArrow-next {
-      right: 0;
-      border-left: 24px solid #000000; }
-      .fSliderWrapper .fSlider .fArrow-next:after {
-        right: 2px;
-        border-left: 22px solid #ffcc00; }
-      .fSliderWrapper .fSlider .fArrow-next.disabled {
-        border-left: 24px solid transparent; }
-        .fSliderWrapper .fSlider .fArrow-next.disabled:after {
-          border-left: 22px solid #aaaaaa; }
     .fSliderWrapper .fSlider .fSliderTrack {
       position: absolute;
       top: 0;
@@ -87,6 +51,42 @@
           vertical-align: bottom; }
         .fSliderWrapper .fSlider .fSliderTrack .sliderItem img {
           display: block; }
+  .fSliderWrapper a[class|="fArrow"] {
+    position: absolute;
+    display: block;
+    top: 50%;
+    margin-top: -24px;
+    width: 0;
+    height: 0;
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent; }
+    .fSliderWrapper a[class|="fArrow"]:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -22px;
+      border-top: 22px solid transparent;
+      border-bottom: 22px solid transparent; }
+  .fSliderWrapper .fArrow-prev {
+    left: 0;
+    border-right: 24px solid #000000; }
+    .fSliderWrapper .fArrow-prev:after {
+      left: 2px;
+      border-right: 22px solid #ffcc00; }
+    .fSliderWrapper .fArrow-prev.disabled {
+      border-right: 22px solid transparent; }
+      .fSliderWrapper .fArrow-prev.disabled:after {
+        border-right: 22px solid #aaaaaa; }
+  .fSliderWrapper .fArrow-next {
+    right: 0;
+    border-left: 24px solid #000000; }
+    .fSliderWrapper .fArrow-next:after {
+      right: 2px;
+      border-left: 22px solid #ffcc00; }
+    .fSliderWrapper .fArrow-next.disabled {
+      border-left: 24px solid transparent; }
+      .fSliderWrapper .fArrow-next.disabled:after {
+        border-left: 22px solid #aaaaaa; }
   .fSliderWrapper .dotsWrapper {
     position: relative;
     padding: 20px 0; }
