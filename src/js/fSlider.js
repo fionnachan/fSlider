@@ -1,4 +1,4 @@
-// fSlider - v 0.8.7 - 2016-3-2
+// fSlider - v 0.8.7 - 2016-3-4
 // Copyright (c) 2015 Fionna Chan
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -903,7 +903,7 @@
 								} else {
 									_.arrowPrev.removeClass('disabled');
 									_.updateCurDot( dir, (_.totalSlidesWClones-_.clonesEachSide*2)/_.numOfNextSlides-1);
-									if ( _.defaults.loop === false && _newLeft <= _.maxSliderTrackLeft ) {
+									if ( _.defaults.loop === false && _newLeft <= _.maxSliderTrackLeft+10 ) {
 										_.arrowNext.addClass('disabled');
 									}
 								}
