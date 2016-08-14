@@ -2,7 +2,7 @@
 
 [Slider Examples] (http://fionnachan.github.io)
 
-[Slide Demo on CodePen] (http://codepen.io/fionnachan/pen/eZKMZg)
+[Slider Demo on CodePen] (http://codepen.io/fionnachan/pen/eZKMZg)
 
 ##### if responsive is set true, responsive.js is recommended to be included, otherwise please include $('window').trigger('responsive') somehow.
 
