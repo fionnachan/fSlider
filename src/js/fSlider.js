@@ -197,26 +197,27 @@
 		_.sliderWrapper.removeClass('notReady');
 
 		$(window).on('resize', function(){
-			if ( _.defaults.autoplay ) {
-				clearTimeout( _.autoplayTimer );
+			if ( _.sliderWrapper.is(':visible') ) {
+				if ( _.defaults.autoplay ) {
+					clearTimeout( _.autoplayTimer );
+				}
+	
+				_.autoResponsive();
+	
+				_.curSlide = _.sliderWrapper.find('.sliderItem.current');
+				_.curEachSlideWidth = Math.floor(_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
+				_.curLeft = -_.curEachSlideWidth*_.curSlide.index();
+	
+				_.resetfSliderWrapperMaxWidth();
+	
+				_.updateSliderDimension();
+	
+				if ( _.defaults.showArrows ) {
+					_.arrowPrev = _.sliderWrapper.parent('.fSliderWrapper').find('.'+_.defaults.arrowPrevClass);
+					_.arrowNext = _.sliderWrapper.parent('.fSliderWrapper').find('.'+_.defaults.arrowNextClass);
+					_.updateArrowsforNoLoop();
+				}
 			}
-
-			_.autoResponsive();
-
-			_.curSlide = _.sliderWrapper.find('.sliderItem.current');
-			_.curEachSlideWidth = Math.floor(_.sliderWrapper.outerWidth()/_.checkSlidesToShow);
-			_.curLeft = -_.curEachSlideWidth*_.curSlide.index();
-
-			_.resetfSliderWrapperMaxWidth();
-
-			_.updateSliderDimension();
-
-			if ( _.defaults.showArrows ) {
-				_.arrowPrev = _.sliderWrapper.parent('.fSliderWrapper').find('.'+_.defaults.arrowPrevClass);
-				_.arrowNext = _.sliderWrapper.parent('.fSliderWrapper').find('.'+_.defaults.arrowNextClass);
-				_.updateArrowsforNoLoop();
-			}
-			
 		});
 
 		$(window).on('responsive', function(){
