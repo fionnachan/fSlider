@@ -4,6 +4,22 @@
 
 [Slider Demo on CodePen] (http://codepen.io/fionnachan/pen/eZKMZg)
 
+#### For the DOM:
+
+<pre>
+<div class="multi4Slider">
+	<img class="sliderItem" src="http://dummyimage.com/285x285/550000/fff" />
+	<img class="sliderItem" src="http://dummyimage.com/285x285/005500/fff" />
+	<img class="sliderItem" src="http://dummyimage.com/285x285/000055/fff" />
+	<img class="sliderItem" src="http://dummyimage.com/285x285/005555/fff" />
+	<img class="sliderItem" src="http://dummyimage.com/285x285/555500/fff" />
+	<img class="sliderItem" src="http://dummyimage.com/285x285/555555/fff" />
+	<img class="sliderItem" src="http://dummyimage.com/285x285/550055/fff" />
+</div>
+</pre>
+
+#### For the script:
+
 ##### if responsive is set true, responsive.js is recommended to be included, otherwise please include $('window').trigger('responsive') somehow.
 
 <pre>sliderName = $('.multi4Slider').fSlider({
