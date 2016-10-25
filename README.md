@@ -6,17 +6,7 @@
 
 #### For the DOM:
 
-<pre>
-<div class="multi4Slider">
-	<img class="sliderItem" src="http://dummyimage.com/285x285/550000/fff" />
-	<img class="sliderItem" src="http://dummyimage.com/285x285/005500/fff" />
-	<img class="sliderItem" src="http://dummyimage.com/285x285/000055/fff" />
-	<img class="sliderItem" src="http://dummyimage.com/285x285/005555/fff" />
-	<img class="sliderItem" src="http://dummyimage.com/285x285/555500/fff" />
-	<img class="sliderItem" src="http://dummyimage.com/285x285/555555/fff" />
-	<img class="sliderItem" src="http://dummyimage.com/285x285/550055/fff" />
-</div>
-</pre>
+Wrap your .sliderItem elements in a div with a class name to be used in the script, e.g. *multi4Slider*
 
 #### For the script:
 
