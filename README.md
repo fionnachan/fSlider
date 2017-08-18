@@ -49,4 +49,6 @@ sliderName.fSlider('destroy'); or $('.multi4Slider').fSlider('destroy');
 // return sliding movement direction: 'prev' or 'next'
 sliderName.fSlider('returnSlideDir'); or $('.multi4Slider').fSlider('returnSlideDir');</pre>
 
+$('.multi4Slider').fSlider('goToSlide', targetSlideIndex); // targetSlideIndex [integer]
+
 #### support IE8+
