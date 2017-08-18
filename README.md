@@ -47,8 +47,8 @@ Wrap your .sliderItem elements in a div with a class name to be used in the scri
 sliderName.fSlider('destroy'); or $('.multi4Slider').fSlider('destroy');
 
 // return sliding movement direction: 'prev' or 'next'
-sliderName.fSlider('returnSlideDir'); or $('.multi4Slider').fSlider('returnSlideDir');</pre>
+sliderName.fSlider('returnSlideDir'); or $('.multi4Slider').fSlider('returnSlideDir');
 
-$('.multi4Slider').fSlider('goToSlide', targetSlideIndex); // targetSlideIndex [integer]
+$('.multi4Slider').fSlider('goToSlide', targetSlideIndex); // targetSlideIndex [integer]</pre>
 
 #### support IE8+
